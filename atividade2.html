@@ -2,22 +2,20 @@
 <html>
 <body>
 
-<h2>calculadora de imc</h2>
+<h2>Calculadora de IMC</h2>
 
-<input id="altura">
-<input id="peso">
-
+<input id="altura" placeholder="ex 1.57">
+<input id="peso" placeholder="ex 50">
 <button onclick="calcular()">Calcular</button>
 
 <script>
 function calcular() {
-    let peso = document.getElementById("peso").value;
-    let altura = document.getElementById("altura").value;
+    let peso = Number(document.getElementById("peso").value);
+    let altura = Number(document.getElementById("altura").value);
 
     let imc = peso / (altura * altura);
-    imc = imc.toFixed(2)
 
-    window.alert(`Seu IMC é:${imc}`);
+    window.alert("Seu IMC é: " + imc);
 }
 </script>
 
