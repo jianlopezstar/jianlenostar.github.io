@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+        body{
+            background-image: url(fundo.jpg)
+        }
+        
+      #robotronpreto {
+        height: 500px;
+        width: 500px;
+}
+
+#x{
+    height: 40px;
+    background-color: black;
+    color: blue;
+}
+
+#y{
+    height: 40px;
+    background-color: rgb(181, 187, 105);
+    color: blue;
+}
+
+    </style>
+</head>
+<body>
+    <button id="x" onclick="mudarImagem()">>></button>
+    
+    <button id="y" onclick="mudarImagem()"><<</button>
+
+    <img id="robotronpreto" src="robotron-preto.png" alt="">
+    
+
+    <script>
+
+        var i = 0
+
+    function mudarImagem(){
+        let imagens = ["robotron-amarelo.png","robotron-vermelho.png","robotron-azul.png","robotron-preto.png" , "robotron-branco.png" , "robotron-rosa.png"]
+     i++   
+    if (i >= imagens.length) {
+        i = 0}
+        
+    document.getElementById("robotronpreto").src = imagens[i];
+        }
+    </script>
+</body>
+</html>
