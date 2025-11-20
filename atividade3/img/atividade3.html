@@ -6,62 +6,48 @@
     <title>Document</title>
 
     <style>
-        body {
-            background-image: url(fundo.jpg);
-        }
 
-        #robotronpreto {
-            height: 600px;
-            width: 600px;
-            position: fixed;
-            right: 20px;
-            bottom: 100px;
+        body{
+            background-image: url(fundo.jpg)
         }
+        
+      #robotronpreto {
+        height: 500px;
+        width: 500px;
+}
 
-        #botoes {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-        }
+#x{
+    height: 100px;
+    color: blue;
+}
 
-        #x, #y {
-            height: 40px;
-            color: blue;
-            margin: 5px;
-        }
+#y{
+    height: 100px;
+    color: blue;
+}
+
     </style>
 </head>
-
 <body>
+    <button id="x" onclick="mudarImagem()">>></button>
+    
+    <button id="y" onclick="mudarImagem()"><<</button>
 
     <img id="robotronpreto" src="robotron-preto.png" alt="">
-
-    <div id="botoes">
-        <button id="x" onclick="mudarImagem()">>></button>
-        <button id="y" onclick="mudarImagem()"><<</button>
-    </div>
+    
 
     <script>
+
         var i = 0
 
-        function mudarImagem() {
-            let imagens = [
-                "robotron-amarelo.png",
-                "robotron-vermelho.png",
-                "robotron-azul.png",
-                "robotron-preto.png",
-                "robotron-branco.png",
-                "robotron-rosa.png"
-            ]
-
-            i++
-            if (i >= imagens.length) {
-                i = 0
-            }
-
-            document.getElementById("robotronpreto").src = imagens[i]
+    function mudarImagem(){
+        let imagens = ["robotron-amarelo.png","robotron-vermelho.png","robotron-azul.png","robotron-preto.png" , "robotron-branco.png" , "robotron-rosa.png"]
+     i++   
+    if (i >= imagens.length) {
+        i = 0}
+        
+    document.getElementById("robotronpreto").src = imagens[i];
         }
     </script>
-
 </body>
 </html>
