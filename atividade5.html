@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Formulario</title>
+
+<style>
+body{
+    font-family: Arial;
+    margin: 20px;
+}
+h1{
+    text-align: center;
+    margin: 0;
+    font-size: 26px;
+}
+h2{
+    text-align: center;
+    margin: 5px 0 15px 0;
+    font-size: 18px;
+}
+.caixa{
+    border: 3px double black;
+    padding: 10px;
+    width: 600px;
+    margin: auto;
+}
+.sub{
+    border: 1px solid black;
+    padding: 10px;
+    margin-top: 10px;
+}
+label{
+    display: block;
+    margin: 4px 0;
+}
+input{
+    margin-left: 5px;
+}
+table{
+    width: 100%;
+}
+td{
+    vertical-align: top;
+}
+button{margin-top:10px;padding:6px 10px}
+</style>
+
+</head>
+<body>
+
+<h1>Escola Virtual</h1>
+<h2>Formulario de Pre-Matricula</h2>
+
+<div class="caixa">
+
+    <div class="sub">
+        <b>Dados Pessoais:</b>
+
+        <label>Nome do Aluno: <input id="nome" type="text"></label>
+
+        <label>Nascimento:
+            <input id="dia" type="text" size="2">/
+            <input id="mes" type="text" size="2">/
+            <input id="ano" type="text" size="4">
+        </label>
+
+        <label>Nome da Mae: <input id="mae" type="text"></label>
+
+        <label>Nome do Pai: <input id="pai" type="text"></label>
+
+        <label>Telefone: DDD
+            <input id="ddd" type="text" size="2"> Tel:
+            <input id="tel" type="text" size="7"> Ramal:
+            <input id="ramal" type="text" size="4">
+        </label>
+
+        <label>E-Mail: <input id="email" type="text"></label>
+    </div>
+
+    <div class="sub">
+        <b>Informacoes de Matricula:</b>
+
+        <table>
+            <tr>
+                <td>
+                    Serie:
+                    <br>
+                    <select id="serie">
+                        <option value="">selecione</option>
+                        <option>pre-escolar</option>
+                        <option>1 ano</option>
+                        <option>2 ano</option>
+                        <option>3 ano</option>
+                    </select>
+
+                    <br><br>
+
+                    Turno:
+                    <br>
+                    <label><input type="radio" name="t" value="manha"> Manha</label>
+                    <label><input type="radio" name="t" value="tarde"> Tarde</label>
+                </td>
+
+                <td>
+                    Atividades Extracurriculares:
+                    <br>
+                    <label><input class="atv" type="checkbox"> Informatica</label>
+                    <label><input class="atv" type="checkbox"> Musica</label>
+                    <label><input class="atv" type="checkbox"> Balet</label>
+                    <label><input class="atv" type="checkbox"> Pintura</label>
+                    <label><input class="atv" type="checkbox"> Judo</label>
+                    <label><input class="atv" type="checkbox"> Futebol</label>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <button onclick="enviar()">Enviar Formulario</button>
+
+</div>
+
+<script>
+function enviar(){
+  var nome = document.getElementById("nome").value
+  var dia  = document.getElementById("dia").value
+  var mes  = document.getElementById("mes").value
+  var ano  = document.getElementById("ano").value
+  var mae  = document.getElementById("mae").value
+  var pai  = document.getElementById("pai").value
+  var ddd  = document.getElementById("ddd").value
+  var tel  = document.getElementById("tel").value
+  var email= document.getElementById("email").value
+  var serie= document.getElementById("serie").value
+    
+      var erro = 0;
+    
+ if (nome == "" || nasc == "" || email == "" || ddd == "" || ddd.length < 2 || ddd.length > 2 || atividades.length > 3){
+     erro = 1; 
+    }
+
+ if (erro == 1){
+    window.alert("Erro no formulario.");
+}
+
+ else if (erro == 0){
+     window.alert("Cadastro feito."); 
+ }
+}
+    </script>
+    
+
+</body>
+</html>
