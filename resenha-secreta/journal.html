@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+body{
+    background-image: url(HelpWanted_29.jpg);
+
+}
+
+button{
+     font-size: 24px;
+}
+
+    </style>
+
+</head>
+<body>
+    
+
+    <button onclick="nigth()">continue</button>
+
+    <audio id="audio" src="03. Pizza Dinner.mp3"></audio>
+
+    <script>
+
+    function nigth(){
+         window.location.href="nightshift.html"
+
+         const audio = document.getElementById('audio');
+    audio.loop = true;
+    audio.play();
+    localStorage.setItem('playAudio', 'true');
+    setTimeout(() => {
+        window.location.href = "nightshift.html";
+    }, 100);
+
+         
+
+}
+
+    </script>
+
+
+</body>
+</html>
