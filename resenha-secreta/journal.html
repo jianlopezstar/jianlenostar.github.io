@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+body{
+    background-image: url(HelpWanted_29.jpg);
+
+}
+
+button{
+     font-size: 24px;
+}
+
+ .texto-centro {
+            width: 70%;
+            max-width: 800px;
+            color: white;
+            font-size: 20px;
+            line-height: 1.6;
+            text-align: center;
+            font-family: Arial, sans-serif;
+                 background: rgba(0,0,0,0.2);
+        
+        }
+
+
+    </style>
+
+</head>
+<body>
+    
+
+    
+<div class="texto-centro">
+    You know, I am not really sure what to type in here, but my dad has taken a bit of a break from writing this, and
+    as I am writing this, I would like you to go on and make sure you are
+    safe and take care of yourself. You are quite loved, and you should
+    always make sure you look out for yourself and love yourself. You may
+    not feel like it, but you should do that. I am not sure if you're still
+    reading this, but if you are, I appreciate that a lot. You are an amazing
+    person, and you deserve to be happy. If you ever feel sad, make sure
+    you are safe and take care of yourself. You are quite loved, and you
+    should always make sure you look out for yourself and love yourself.
+    You may not feel like it, but you should do that. I am not sure if you're
+    still reading this, but if you are, I appreciate that a lot. You are an
+    amazing person, and you deserve to be happy. If you ever feel sad, 
+    make sure to find someone you trust to talk with, but if you dont like
+    talking to someone, thats completely okay too. I completely respect
+    that, and I hope you stay safe and take care.
+</div>
+
+
+    <button onclick="nigth()">continue</button>
+
+    <audio id="audio" src="03. Pizza Dinner.mp3"></audio>
+
+    <script>
+
+    function nigth(){
+         window.location.href="nightshift.html"
+
+         const audio = document.getElementById('audio');
+    audio.loop = true;
+    audio.play();
+    localStorage.setItem('playAudio', 'true');
+    setTimeout(() => {
+        window.location.href = "nightshift.html";
+    }, 100);
+
+         
+
+}
+
+    </script>
+
+
+</body>
+</html>

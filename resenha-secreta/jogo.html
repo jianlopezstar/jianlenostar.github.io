@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FNAF 1 - Bootleg</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            font-family: 'Courier New', monospace;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-container {
+            width: 1000px;
+            height: 600px;
+            background: #111;
+            border: 3px solid #333;
+            display: flex;
+            position: relative;
+        }
+
+        /* OFFICE */
+        .office {
+            flex: 3;
+            background: #0a0a0a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .office-bg {
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            position: relative;
+        }
+
+        .desk {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: #222;
+            border-top: 2px solid #444;
+        }
+
+        .monitor {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 120px;
+            background: #000;
+            border: 2px solid #333;
+        }
+
+        .cam-view {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* DOORS */
+        .door {
+            position: absolute;
+            top: 0;
+            width: 80px;
+            height: 100%;
+            background: #000;
+            z-index: 10;
+        }
+
+        .door-left {
+            left: 0;
+            border-right: 2px solid #333;
+        }
+
+        .door-right {
+            right: 0;
+            border-left: 2px solid #333;
+        }
+
+        .door.closed {
+            background: rgba(139, 0, 0, 0.8);
+        }
+
+        .door-light {
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #333;
+        }
+
+        .door-left .door-light {
+            right: 10px;
+        }
+
+        .door-right .door-light {
+            left: 10px;
+        }
+
+        .door-light.on {
+            background: #ff6b6b;
+            box-shadow: 0 0 10px #ff6b6b;
+        }
+
+        /* HUD */
+        .hud {
+            flex: 1;
+            background: #151520;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .panel {
+            background: #1a1a2e;
+            border: 2px solid #2a2a4a;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .panel-title {
+            color: #4fc3f7;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .time-display {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            color: #0f0;
+            text-align: center;
+            margin: 10px 0;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .power-bar {
+            height: 20px;
+            background: #222;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .power-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0f0, #ff0, #f00);
+            transition: width 0.3s;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            background: #2a2a4a;
+            border: 1px solid #4a4a6a;
+            color: white;
+            padding: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .btn:hover {
+            background: #3a3a5a;
+        }
+
+        .btn.active {
+            background: #b71c1c;
+            border-color: #ff5252;
+        }
+
+        .camera-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .cam-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: #aaa;
+            padding: 5px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .cam-btn:hover {
+            background: #333;
+        }
+
+        .cam-btn.active {
+            background: #2a4a6a;
+            color: #4fc3f7;
+            border-color: #6a8aff;
+        }
+
+        /* CAMERA VIEW */
+        .camera-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: none;
+            z-index: 100;
+        }
+
+        .camera-view {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .camera-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #4fc3f7;
+            font-size: 14px;
+        }
+
+        .close-cam {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #b71c1c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        /* ANIMATRONIC */
+        .animatronic {
+            position: absolute;
+            width: 100px;
+            height: 200px;
+            background: #333;
+            bottom: 180px;
+            right: -100px;
+            transition: right 0.5s;
+        }
+
+        .animatronic.show {
+            right: 50px;
+        }
+
+        /* JUMPSCARE */
+        .jumpscare {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .jumpscare-img {
+            width: 400px;
+            height: 400px;
+            animation: shake 0.1s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- OFFICE VIEW -->
+        <div class="office">
+            <div class="office-bg">
+                <div class="door door-left" id="leftDoor">
+                    <div class="door-light" id="leftLight"></div>
+                </div>
+                <div class="door door-right" id="rightDoor">
+                    <div class="door-light" id="rightLight"></div>
+                </div>
+                <div class="desk">
+                    <div class="monitor">
+                        <!-- Camera feed will appear here -->
+                    </div>
+                </div>
+                <div class="animatronic" id="bonnie"></div>
+            </div>
+        </div>
+
+        <!-- HUD / CONTROLS -->
+        <div class="hud">
+            <!-- TIME & POWER -->
+            <div class="panel">
+                <div class="panel-title">FNAF BOOTLEG</div>
+                <div class="time-display" id="time">12:00 AM</div>
+                <div>Poder: <span id="powerText">100%</span></div>
+                <div class="power-bar">
+                    <div class="power-fill" id="powerFill"></div>
+                </div>
+                <div>Noite: <span id="night">1</span></div>
+            </div>
+
+            <!-- DOOR CONTROLS -->
+            <div class="panel">
+                <div class="panel-title">CONTROLES</div>
+                <div class="controls">
+                    <button class="btn" id="btnLeftDoor" data-key="A">Porta Esq (A)</button>
+                    <button class="btn" id="btnRightDoor" data-key="D">Porta Dir (D)</button>
+                    <button class="btn" id="btnLeftLight" data-key="Q">Luz Esq (Q)</button>
+                    <button class="btn" id="btnRightLight" data-key="E">Luz Dir (E)</button>
+                    <button class="btn" id="btnCam" data-key="C">Câmeras (C)</button>
+                    <button class="btn" id="btnMusic" data-key="M">Música (M)</button>
+                </div>
+            </div>
+
+            <!-- CAMERAS -->
+            <div class="panel">
+                <div class="panel-title">CÂMERAS</div>
+                <div class="camera-list">
+                    <button class="cam-btn" data-cam="1">CAM 1A - Hall Principal</button>
+                    <button class="cam-btn active" data-cam="2">CAM 1B - Cozinha</button>
+                    <button class="cam-btn" data-cam="3">CAM 1C - Banheiro</button>
+                </div>
+            </div>
+
+            <!-- STATUS -->
+            <div class="panel">
+                <div class="panel-title">STATUS</div>
+                <div id="status">Tudo normal...</div>
+                <div id="warning" style="color: #ff6b6b; display: none;">⚠ ALERTA! ⚠</div>
+            </div>
+        </div>
+
+        <!-- FULL CAMERA SCREEN -->
+        <div class="camera-screen" id="cameraScreen">
+            <div class="camera-view">
+                <div class="camera-number" id="camName">CAM 1A - Hall</div>
+                <button class="close-cam" id="closeCam">FECHAR (C)</button>
+                <!-- Camera view would be drawn here -->
+            </div>
+        </div>
+
+        <!-- JUMPSCARE -->
+        <div class="jumpscare" id="jumpscare">
+            <div style="color: #f00; font-size: 48px; text-align: center;">
+                JUMPSCARE!<br>
+                GAME OVER
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURAÇÃO FÁCIL DE ALTERAR
+        const CONFIG = {
+            power: {
+                max: 100,
+                drain: {
+                    base: 0.01,
+                    leftDoor: 0.5,
+                    rightDoor: 0.5,
+                    leftLight: 0.2,
+                    rightLight: 0.2,
+                    camera: 0.3
+                }
+            },
+            cameras: [
+                { id: 1, name: "Hall Principal", desc: "Vista do corredor principal" },
+                { id: 2, name: "Cozinha", desc: "Área da cozinha" },
+                { id: 3, name: "Banheiro", desc: "Banheiro dos funcionários" }
+            ],
+            time: {
+                start: 12, // 12 AM
+                end: 6,    // 6 AM
+                speed: 1   // Velocidade do tempo
+            }
+        };
+
+        // ESTADO DO JOGO
+        const state = {
+            // Sistema básico
+            power: CONFIG.power.max,
+            time: 0,
+            night: 1,
+            gameOver: false,
+            
+            // Controles
+            leftDoor: false,
+            rightDoor: false,
+            leftLight: false,
+            rightLight: false,
+            cameraOpen: false,
+            currentCam: 2,
+            
+            // Animatrônicos
+            bonnie: {
+                position: 0, // 0=cozinha, 1=hall, 2=porta
+                active: true
+            },
+            
+            // Sistema de música
+            musicBox: 100
+        };
+
+        // ELEMENTOS DO DOM
+        const elements = {
+            // Power
+            powerText: document.getElementById('powerText'),
+            powerFill: document.getElementById('powerFill'),
+            
+            // Time
+            time: document.getElementById('time'),
+            night: document.getElementById('night'),
+            
+            // Doors
+            leftDoor: document.getElementById('leftDoor'),
+            rightDoor: document.getElementById('rightDoor'),
+            leftLight: document.getElementById('leftLight'),
+            rightLight: document.getElementById('rightLight'),
+            
+            // Controls
+            btnLeftDoor: document.getElementById('btnLeftDoor'),
+            btnRightDoor: document.getElementById('btnRightDoor'),
+            btnLeftLight: document.getElementById('btnLeftLight'),
+            btnRightLight: document.getElementById('btnRightLight'),
+            btnCam: document.getElementById('btnCam'),
+            
+            // Camera
+            cameraScreen: document.getElementById('cameraScreen'),
+            closeCam: document.getElementById('closeCam'),
+            camName: document.getElementById('camName'),
+            
+            // Status
+            status: document.getElementById('status'),
+            warning: document.getElementById('warning'),
+            
+            // Animatronic
+            bonnie: document.getElementById('bonnie'),
+            
+            // Jumpscare
+            jumpscare: document.getElementById('jumpscare'),
+            
+            // Camera buttons
+            camButtons: document.querySelectorAll('.cam-btn')
+        };
+
+        // INICIALIZAÇÃO
+        function init() {
+            setupControls();
+            updateUI();
+            gameLoop();
+        }
+
+        // CONFIGURA CONTROLES
+        function setupControls() {
+            // Controles de porta
+            elements.btnLeftDoor.addEventListener('click', () => {
+                state.leftDoor = !state.leftDoor;
+                updateUI();
+            });
+            
+            elements.btnRightDoor.addEventListener('click', () => {
+                state.rightDoor = !state.rightDoor;
+                updateUI();
+            });
+            
+            // Controles de luz
+            elements.btnLeftLight.addEventListener('click', () => {
+                state.leftLight = !state.leftLight;
+                updateUI();
+            });
+            
+            elements.btnRightLight.addEventListener('click', () => {
+                state.rightLight = !state.rightLight;
+                updateUI();
+            });
+            
+            // Controle de câmera
+            elements.btnCam.addEventListener('click', toggleCamera);
+            elements.closeCam.addEventListener('click', toggleCamera);
+            
+            // Botões de câmera individual
+            elements.camButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    elements.camButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    state.currentCam = parseInt(btn.dataset.cam);
+                    updateCameraView();
+                });
+            });
+            
+            // Controles por teclado
+            document.addEventListener('keydown', (e) => {
+                if (state.gameOver) return;
+                
+                const key = e.key.toLowerCase();
+                
+                switch(key) {
+                    case 'a':
+                        state.leftDoor = !state.leftDoor;
+                        break;
+                    case 'd':
+                        state.rightDoor = !state.rightDoor;
+                        break;
+                    case 'q':
+                        state.leftLight = !state.leftLight;
+                        break;
+                    case 'e':
+                        state.rightLight = !state.rightLight;
+                        break;
+                    case 'c':
+                        toggleCamera();
+                        break;
+                    case 'm':
+                        windMusicBox();
+                        break;
+                    case '1':
+                    case '2':
+                    case '3':
+                        changeCamera(parseInt(key));
+                        break;
+                }
+                
+                updateUI();
+            });
+        }
+
+        // ATUALIZA O JOGO
+        function updateGame() {
+            if (state.gameOver) return;
+            
+            // Atualiza tempo
+            state.time += 0.1;
+            if (state.time >= 360) { // 6 horas
+                winGame();
+                return;
+            }
+            
+            // Atualiza energia
+            updatePower();
+            
+            // Atualiza animatrônicos
+            updateAnimatronics();
+            
+            // Atualiza música
+            updateMusicBox();
+            
+            // Verifica condições de derrota
+            checkGameOver();
+        }
+
+        function updatePower() {
+            let drain = CONFIG.power.drain.base;
+            
+            if (state.leftDoor) drain += CONFIG.power.drain.leftDoor;
+            if (state.rightDoor) drain += CONFIG.power.drain.rightDoor;
+            if (state.leftLight) drain += CONFIG.power.drain.leftLight;
+            if (state.rightLight) drain += CONFIG.power.drain.rightLight;
+            if (state.cameraOpen) drain += CONFIG.power.drain.camera;
+            
+            state.power = Math.max(0, state.power - drain);
+        }
+
+        function updateAnimatronics() {
+            // Bonnie se move aleatoriamente
+            if (Math.random() < 0.005) { // 0.5% chance por frame
+                state.bonnie.position = (state.bonnie.position + 1) % 3;
+                updateBonniePosition();
+            }
+            
+            // Verifica se Bonnie atacou
+            if (state.bonnie.position === 2 && !state.leftDoor) {
+                triggerJumpscare();
+            }
+        }
+
+        function updateBonniePosition() {
+            elements.bonnie.classList.remove('show');
+            
+            if (state.bonnie.position === 2) {
+                elements.bonnie.classList.add('show');
+                elements.status.textContent = "Bonnie está na porta!";
+                elements.warning.style.display = 'block';
+            } else {
+                elements.warning.style.display = 'none';
+                elements.status.textContent = state.bonnie.position === 0 ? 
+                    "Bonnie na cozinha" : "Bonnie no hall";
+            }
+        }
+
+        function updateMusicBox() {
+            if (state.musicBox > 0) {
+                state.musicBox -= 0.05;
+            }
+        }
+
+        function windMusicBox() {
+            state.musicBox = Math.min(100, state.musicBox + 30);
+        }
+
+        function updateUI() {
+            // Atualiza energia
+            elements.powerText.textContent = Math.floor(state.power) + '%';
+            elements.powerFill.style.width = state.power + '%';
+            
+            // Atualiza tempo
+            const hour = Math.floor(state.time / 60) + 12;
+            const minute = Math.floor(state.time % 60);
+            const period = hour >= 12 && hour < 24 ? 'AM' : hour >= 24 ? 'AM' : 'PM';
+            const displayHour = hour > 12 ? hour - 12 : hour;
+            elements.time.textContent = `${displayHour}:${minute.toString().padStart(2, '0')} ${period}`;
+            
+            // Atualiza portas
+            elements.leftDoor.classList.toggle('closed', state.leftDoor);
+            elements.rightDoor.classList.toggle('closed', state.rightDoor);
+            
+            // Atualiza luzes
+            elements.leftLight.classList.toggle('on', state.leftLight);
+            elements.rightLight.classList.toggle('on', state.rightLight);
+            
+            // Atualiza botões
+            elements.btnLeftDoor.classList.toggle('active', state.leftDoor);
+            elements.btnRightDoor.classList.toggle('active', state.rightDoor);
+            elements.btnLeftLight.classList.toggle('active', state.leftLight);
+            elements.btnRightLight.classList.toggle('active', state.rightLight);
+            elements.btnCam.classList.toggle('active', state.cameraOpen);
+            
+            // Atualiza noite
+            elements.night.textContent = state.night;
+        }
+
+        function updateCameraView() {
+            const cam = CONFIG.cameras.find(c => c.id === state.currentCam);
+            if (cam) {
+                elements.camName.textContent = cam.name;
+            }
+        }
+
+        function toggleCamera() {
+            state.cameraOpen = !state.cameraOpen;
+            elements.cameraScreen.style.display = state.cameraOpen ? 'block' : 'none';
+            updateUI();
+        }
+
+        function changeCamera(num) {
+            if (num >= 1 && num <= 3) {
+                state.currentCam = num;
+                elements.camButtons.forEach(btn => {
+                    btn.classList.toggle('active', parseInt(btn.dataset.cam) === num);
+                });
+                updateCameraView();
+            }
+        }
+
+        function checkGameOver() {
+            if (state.power <= 0 && !state.gameOver) {
+                triggerJumpscare();
+            }
+            
+            if (state.musicBox <= 0 && Math.random() < 0.01) {
+                elements.status.textContent = "Caixa de música vazia!";
+                // Chance de ataque quando a música acaba
+                if (Math.random() < 0.1) {
+                    triggerJumpscare();
+                }
+            }
+        }
+
+        function triggerJumpscare() {
+            state.gameOver = true;
+            elements.jumpscare.style.display = 'flex';
+            
+            setTimeout(() => {
+                alert(`GAME OVER!\nSobreviveu até ${elements.time.textContent}\nNoite ${state.night}`);
+                resetGame();
+            }, 2000);
+        }
+
+        function winGame() {
+            state.gameOver = true;
+            alert(`PARABÉNS!\nVocê sobreviveu a Noite ${state.night}!\n${elements.time.textContent}`);
+            state.night++;
+            resetGame();
+        }
+
+        function resetGame() {
+            state.power = CONFIG.power.max;
+            state.time = 0;
+            state.leftDoor = false;
+            state.rightDoor = false;
+            state.leftLight = false;
+            state.rightLight = false;
+            state.cameraOpen = false;
+            state.bonnie.position = 0;
+            state.musicBox = 100;
+            state.gameOver = false;
+            
+            elements.jumpscare.style.display = 'none';
+            updateUI();
+            updateBonniePosition();
+        }
+
+        // LOOP DO JOGO
+        function gameLoop() {
+            updateGame();
+            updateUI();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // INICIA O JOGO
+        init();
+    </script>
+</body>
+</html>
