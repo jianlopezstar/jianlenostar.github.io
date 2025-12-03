@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Menu</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        body {
+            background-image: url("background.gif");
+            background-size: cover, cover;
+            background-position: center center, center center;
+            background-repeat: no-repeat, no-repeat;
+            overflow: hidden;
+        }
+
+        .static {
+            position: fixed;
+            inset: 0;
+            background: url('static.gif') repeat;
+            opacity: 0.28;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .menu {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 40px;
+        }
+
+        button {
+            padding: 10px 30px;
+            font-size: 20px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: white;
+            color: black;
+            transform: scale(1.03);
+        }
+
+        #arabic {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 44px;
+            color: #ff3b3b;
+            text-align: center;
+            z-index: 1000;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="static"></div>
+
+    <div class="menu">
+        <audio id="musica_intro" src="01. Intro.mp3" autoplay loop preload="auto"></audio>
+        <audio id="musica_exit" src="04. Untimely Demise.mp3" preload="auto"></audio>
+
+        <button onclick="start()">لعب play the game</button>
+        <button id="exitBtn">exit</button>
+    </div>
+
+    <div id="arabic"></div>
+
+    <script>
+        function start() {
+            location.href = "journal.html";
+        }
+
+        const exitBtn = document.getElementById('exitBtn');
+
+        exitBtn.addEventListener('click', function () {
+
+            const quote =
+                "اسمع همسات الظلال، اسمك يهمس به. — المؤلف المجهول";
+
+            sessionStorage.setItem('startScary', '1');
+            sessionStorage.setItem('arabicQuote', quote);
+
+            const audio = document.getElementById('musica_exit');
+
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(() => { });
+            }
+
+            location.href = 'scary.html';
+        });
+    </script>
+</body>
+
+</html>
