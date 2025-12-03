@@ -5,48 +5,56 @@
     <title>fnaff 2 mobile free</title>
     <style>
 
-     body {
-  background: url(thumb-1920-782375.png) 
-}
+    body {
+        background: url(thumb-1920-782375.png);
+        background-size: cover;
+        margin: 0;
+    }
 
+    p {
+        color: white;
+        font-size: 22px;
+        text-align: center;
+        text-shadow: 0 0 5px black;
+        margin-top: 20px;
+    }
 
-         button {
-    display: block;
-    margin: 20px 0 0 20px;
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor: pointer;
-    border: 2px solid white;
-    background: transparent;
-    color: white;
-}
+    button {
+        display: block;
+        margin: 20px 0 0 20px;
+        padding: 10px 20px;
+        font-size: 20px;
+        cursor: pointer;
+        border: 2px solid white;
+        background: transparent;
+        color: white;
+    }
 
-button:hover {
-    background: white;
-    color: black;
-    transform: scale(1.05);
-}
-
+    button:hover {
+        background: white;
+        color: black;
+        transform: scale(1.05);
+    }
 
     </style>
 </head>
 <body>
 
+<p>press F11</p>
+    <p>god loves yuأنت رائع</p>
 
-    <p>press    F11</p>
-
-    <div class="menu">
-        <button id="start" onclick="startGame()">CLIck HERE TO GET FNAf 1 for FREEEE!!!!!"11111111</button>
-        <button id="arabe" onclick="">خيار</button>
-        <button id="quit" onclick="tocarMusica()">quit</button>
-    </div>
+<div class="menu">
+    <button id="start" onclick="startGame()">CLIck HERE TO GET FNAf 1 for FREEEE!!!!!"11111111</button>
+    <button id="arabe" onclick="">خيار</button>
+    <button id="quit" onclick="tocarMusica()">quit</button>
+</div>
 
 <audio id="musica" src="01. Intro.mp3"></audio>
 
-    <script>
+<script>
 
-        function startGame(){
-    window.location.href="menu.html"
+function startGame(){
+    window.location.href = "menu.html";
     const audio = document.getElementById("musica");
     audio.play();
 }
@@ -54,8 +62,8 @@ button:hover {
 function tocarMusica(){
     window.open("https://youtu.be/kNdIA-L8E3c?si=umVdeC9E2sUDQWdz")
 }
-    </script>
 
+</script>
 
 </body>
 </html>
