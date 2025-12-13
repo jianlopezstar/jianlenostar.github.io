@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+    </head>
+    <body>
+        <!-- background -->
+        <img src='survived/background.png' width='100%' height='100%' style='position: absolute; top: 0%; left: 0%'>
+        <!-- timer -->
+        <img src='survived/five.png' id='timer' width='4%' height='10%' style='position: absolute; top: 44%; left: 39%'>
+        <!-- am -->
+        <img src='survived/am.png' width='9%' height='10%' style='position: absolute; top: 44%; left: 47%'>
+        <!-- script -->
+        <script>
+            // variable
+            transition = 0;
+            // timer
+            function timer(){
+                if (transition == 0){
+                    // transition
+                    transition = 1;
+                    // timer
+                    setTimeout(timer, 3900);
+                } else if (transition == 1){
+                    // timer
+                    document.getElementById('timer').src = 'survived/transition.gif';
+                    // transition
+                    transition = 2;
+                    // timer
+                    setTimeout(timer, 1300);
+                } else if (transition == 2){
+                    // timer
+                    document.getElementById('timer').src = 'survived/six.png';
+                    // transition
+                    transition = 3;
+                    // timer
+                    setTimeout(timer, 3900);
+                } else if (transition == 3){
+                    window.location.href = 'index.html';
+                }
+            }
+            // function
+            timer();
+        </script>
+</html>
