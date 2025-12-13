@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Scary</title>
+
+  <style>
+    html,body{height:100%;margin:0;font-family:Arial,sans-serif}
+    body{
+      background: url("scary.gif") center/cover no-repeat fixed;
+      background-color:#000;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    #arabic{
+      font-size:56px;
+      color:#ff3b3b;
+      text-align:center;
+      z-index:2;
+      pointer-events:none;
+    }
+
+ 
+     #messages{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:100%;
+  text-align:center;
+  font-size:32px;
+  text-shadow:0 0 10px black;
+  color:#ff3b3b;
+  pointer-events:none;
+  opacity:1;
+  transition:opacity 0.3s;
+}
+
+    
+   
+    #backBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  padding:8px 14px;
+  font-size:16px;
+  background:#222;
+  color:#fff;
+  border:2px solid #fff;
+  cursor:pointer;
+  display:none;
+  z-index:20;
+}
+
+    
+
+    #ask{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+
+      z-index:10;
+    }
+
+    #ask button{
+      padding:16px 28px;
+      font-size:20px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="arabic"></div>
+  <div id="messages"></div>
+  <button id="backBtn" onclick="window.location.href='menu.html'">back</button>
+
+  <div id="ask">
+    <button id="startManual">Tocar som e continuar</button>
+  </div>
+
+  <audio id="scaryAudio" src="04. Untimely Demise.mp3" preload="auto" playsinline></audio>
+
+<script>
+(function(){
+  const want = sessionStorage.getItem('startScary');
+  sessionStorage.removeItem('startScary');
+
+  const audio = document.getElementById('scaryAudio');
+  const box = document.getElementById('arabic');
+  const ask = document.getElementById('ask');
+  const startManual = document.getElementById('startManual');
+  const msgBox = document.getElementById('messages');
+  const backBtn = document.getElementById('backBtn');
+
+  if(!want) return;
+
+const msgs = [
+  "take your time proud of you",
+  "لماذا عدت",
+  "UNFAIR PLAYER DETECTED.",
+  "انت ملكي",
+  "you shall be sent to the blackhole room.",
+  "من فضلك لا تنظر خلفك",
+  "UH OH! YOU ANGERED THE THING!",
+  "لا تهرب",
+];
+
+
+  let msgIndex = 0;
+function cycleMessages(){
+  msgBox.style.opacity = 0;
+
+  const corrupted = msgs[msgIndex]
+    .split('')
+    .map(ch => Math.random() < 0.15 ? String.fromCharCode(0x0600 + Math.random()*200) : ch)
+    .join('');
+
+  msgBox.textContent = corrupted;
+
+  msgIndex = (msgIndex + 1) % msgs.length;
+
+  setTimeout(()=>{
+    msgBox.style.opacity = 1;
+  }, 120);
+
+  setTimeout(cycleMessages, 1600);
+}
+
+  setTimeout(()=>{ backBtn.style.display = "block"; }, 7000);
+
+  function blinkAndDone(){
+    let count=0;
+    (function blink(){
+      if(count>=12) return;
+      box.textContent = box.textContent==='' ? 'خروج من اللعبة' : '';
+      count++;
+      setTimeout(blink,150);
+    })();
+  }
+
+  function showManual(){
+    ask.style.display='flex';
+  }
+
+  startManual.onclick = ()=>{
+    ask.style.display='none';
+    audio.currentTime = 0;
+    audio.play().catch(()=>{});
+    blinkAndDone();
+    cycleMessages();
+  };
+
+  const p = audio.play();
+  if(p){
+    p.then(()=>{
+      blinkAndDone();
+      cycleMessages();
+    }).catch(()=> showManual());
+  } else {
+    blinkAndDone();
+    cycleMessages();
+  }
+})();
+</script>
+
+</body>
+</html>
