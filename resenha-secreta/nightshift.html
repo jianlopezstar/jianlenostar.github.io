@@ -5,6 +5,7 @@
         <title>Turnomacabro</title>
         <style>
             body { margin: 0; overflow: hidden; background-color: black; }
+            
             .office-layer { z-index: 1; }
             .animatronic-layer { z-index: 2; }
             .cam-layer { z-index: 3; }
@@ -13,6 +14,35 @@
             .door-indicator { z-index: 90; }
             .ui-layer { z-index: 100; }
             .clickable { cursor: pointer; } 
+
+            #nightScreen {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: black;
+                color: white;
+                display: flex; 
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-family: 'Consolas', 'Courier New', monospace;
+                font-size: 400%; 
+                text-shadow: 0 0 10px #FF8C00;
+                text-align: center;
+                z-index: 1000; 
+            }
+            #nightText {
+                margin: 5px 0;
+                line-height: 1.2;
+            }
+            #loadingText {
+                font-size: 25%;
+                margin-top: 50px;
+                color: #555555;
+            }
+
 
             #musicBoxUI {
                 position: absolute;
@@ -141,6 +171,14 @@
         </style>
     </head>
     <body>
+
+        <div id="nightScreen">
+            <p id="nightText">12:00 AM</p>
+            <p id="nightText">6th Night</p>
+            <p id="loadingText">LOADING CRITICAL ASSETS...</p>
+        </div>
+
+
         <div id='warningOverlay'>
             <p id="warningText">
                 BЄWÅRЄ ØF ßUᗪᗪY!
@@ -266,6 +304,28 @@
             let windupInterval = null; 
             
             let audioContextUnlocked = false; 
+            
+            let assetsPreloaded = false; 
+            let minTimePassed = false; 
+
+            const CRITICAL_ASSETS = [
+                'nightshift/office-open.png',
+                'nightshift/office-closed.png',
+                'nightshift/office-left-door.png',
+                'nightshift/office-right-door.png',
+                'nightshift/powerDown/jumpscare.gif',
+                'nightshift/bonnie/jumpscare.gif',
+                'nightshift/chica/jumpscare.gif',
+                'nightshift/freddy/jumpscare.gif',
+                'nightshift/goldenFreddy/jumpscare.gif',
+                'nightshift/foxy/jumpscare.gif',
+                'nightshift/monitor.png',
+                'nightshift/map.png',
+                'nightshift/static.gif',
+                'nightshift/434.png', 
+                'nightshift/goldenFreddy/office.png',
+            ];
+
 
             function safeGetElement(id) {
                 const el = document.getElementById(id);
@@ -356,7 +416,7 @@
             }
 
             function gameOverCleanUp() {
-                const uiElements = ['leftButtom', 'rightButtom', 'monitor', 'timerTxt', 'powerTxt', 'usageTxt', 'goldenOffice', 'camera', 'static', 'map', 'leftDoor', 'rightDoor', 'musicBoxUI', 'dangerOverlay', 'warningOverlay']; 
+                const uiElements = ['leftButtom', 'rightButtom', 'monitor', 'timerTxt', 'powerTxt', 'usageTxt', 'goldenOffice', 'camera', 'static', 'map', 'leftDoor', 'rightDoor', 'musicBoxUI', 'dangerOverlay', 'warningOverlay', 'nightScreen']; 
                 uiElements.forEach(id => {
                     const el = safeGetElement(id);
                     if (el) el.style.visibility = 'hidden';
@@ -739,7 +799,6 @@
                 else if (camCounter === 2) imgName = 'backstage.png';
                 else if (camCounter === 3) imgName = 'pirateCove.png';
                 else if (camCounter === 4) imgName = 'restrooms.png';
-                // ALTERAÇÃO AQUI: cam6.png para a Câmera 5 (Kitchen)
                 else if (camCounter === 5) { imgName = 'cam6.png'; playKitchen = true; } 
                 else if (camCounter === 6) imgName = 'westHall.png';
                 else if (camCounter === 7) imgName = 'supplyCloset.png';
@@ -1060,38 +1119,98 @@
                     });
                 }
             }
+            
+            function markAssetsReady() {
+                assetsPreloaded = true;
+                const loadingText = safeGetElement('loadingText');
+                if (loadingText) {
+                    loadingText.innerText = 'CRITICAL ASSETS LOADED. STAND BY...';
+                }
+                startGameIfReady();
+            }
+
+            function startGameIfReady() {
+                if (assetsPreloaded && minTimePassed) {
+                    const nightScreen = safeGetElement('nightScreen');
+                    if (nightScreen) {
+                        nightScreen.style.display = 'none';
+                    }
+
+                    setupMusicBoxListeners(); 
+                    selectNextMusicBoxTrack(); 
+
+                    const audio = safeGetElement('audio');
+                    if (audio) {
+                        audio.volume = 0.5;
+                    }
+                    
+                    const warningOverlay = safeGetElement('warningOverlay');
+
+                    updateUI();
+                    timer();
+                    power();
+                    bonnie();
+                    chica();
+                    freddy(); 
+                    tickMusicBox(); 
+
+                    if (warningOverlay) {
+                         warningOverlay.style.visibility = 'visible';
+                    }
+
+                    document.addEventListener('click', unlockAudioContext);
+                    document.addEventListener('touchstart', unlockAudioContext);
+
+                    setTimeout(() => {
+                        if (warningOverlay) {
+                             warningOverlay.style.visibility = 'hidden';
+                        }
+                    }, 6000); 
+                }
+            }
+
+
+            function preloadAssets() {
+                let loadedCount = 0;
+                const totalAssets = CRITICAL_ASSETS.length;
+
+                const updateProgress = () => {
+                    loadedCount++;
+                    const loadingText = safeGetElement('loadingText');
+                    
+                    if (loadingText) {
+                        loadingText.innerText = `LOADING CRITICAL ASSETS... (${loadedCount}/${totalAssets})`;
+                    }
+
+                    if (loadedCount === totalAssets) {
+                        markAssetsReady(); 
+                    }
+                };
+
+                CRITICAL_ASSETS.forEach(url => {
+                    const img = new Image();
+                    img.onload = updateProgress;
+                    img.onerror = updateProgress; 
+                    img.src = url;
+                });
+
+                if (totalAssets === 0) {
+                    markAssetsReady();
+                }
+            }
+
 
             function initialStart() {
-                setupMusicBoxListeners(); 
-                selectNextMusicBoxTrack(); 
-
-                const audio = safeGetElement('audio');
-                if (audio) {
-                    audio.volume = 0.5;
-                }
-                
-                const warningOverlay = safeGetElement('warningOverlay');
-
-                updateUI();
-                timer();
-                power();
-                bonnie();
-                chica();
-                freddy(); 
-                tickMusicBox(); 
-
-                if (warningOverlay) {
-                     warningOverlay.style.visibility = 'visible';
-                }
-
-                document.addEventListener('click', unlockAudioContext);
-                document.addEventListener('touchstart', unlockAudioContext);
+                preloadAssets();
 
                 setTimeout(() => {
-                    if (warningOverlay) {
-                         warningOverlay.style.visibility = 'hidden';
+                    minTimePassed = true;
+                    const loadingText = safeGetElement('loadingText');
+                    if (loadingText) {
+                        loadingText.innerText = 'STARTING NIGHT SHIFT...';
                     }
-                }, 6000); 
+                    startGameIfReady(); 
+                }, 13000); 
             }
 
             window.onload = initialStart;
