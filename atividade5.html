@@ -6,34 +6,58 @@
 
 <style>
 body{
-    font-family: Arial;
-    margin: 20px;
+    font-family: Arial, sans-serif;
+    margin: 10px;
 }
-h1{
+h1, h2{
     text-align: center;
-    margin: 0;
-    font-size: 26px;
+    margin: 5px 0;
 }
-h2{
-    text-align: center;
-    margin: 5px 0 15px 0;
-    font-size: 18px;
+h1{ font-size: 24px; }
+h2{ font-size: 16px; margin-bottom: 15px; }
+
+.caixa {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid #000;
+}
+.sub {
+    margin-bottom: 15px;
+    padding: 5px 0;
+}
+.sub b {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+label{
+    display: block;
+    margin: 8px 0;
+}
+input {
+    padding: 2px;
+    border: 1px solid #000;
+    margin-left: 5px;
+    width: 60%;
 }
 
-label{
-   
-    margin: 4px 0;
-}
-input{
-    margin-left: 5px;
-}
 table{
     width: 100%;
 }
 td{
     vertical-align: top;
+    padding-right: 10px;
 }
-button{margin-top:10px;padding:6px 10px}
+button{
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #eee;
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+    width: 100%;
+}
 </style>
 
 </head>
@@ -49,21 +73,13 @@ button{margin-top:10px;padding:6px 10px}
 
         <label>Nome do Aluno: <input id="nome" type="text"></label>
 
-        <label>Nascimento:
-            <input id="dia" type="text" size="2">/
-            <input id="mes" type="text" size="2">/
-            <input id="ano" type="text" size="4">
-        </label>
+        <label>Nascimento: <input id="nascimento" type="text" placeholder="DD/MM/AAAA"></label>
 
         <label>Nome da Mae: <input id="mae" type="text"></label>
 
         <label>Nome do Pai: <input id="pai" type="text"></label>
 
-        <label>Telefone: DDD
-            <input id="ddd" type="text" size="2"> Tel:
-            <input id="tel" type="text" size="7"> Ramal:
-            <input id="ramal" type="text" size="4">
-        </label>
+        <label>Telefone: <input id="tel" type="text" placeholder="(DDD) 0000-0000"></label>
 
         <label>E-Mail: <input id="email" type="text"></label>
     </div>
@@ -114,31 +130,26 @@ button{margin-top:10px;padding:6px 10px}
 <script>
 function enviar(){
   var nome = document.getElementById("nome").value
-  var dia  = document.getElementById("dia").value
-  var mes  = document.getElementById("mes").value
-  var ano  = document.getElementById("ano").value
-  var mae  = document.getElementById("mae").value
-  var pai  = document.getElementById("pai").value
-  var ddd  = document.getElementById("ddd").value
-  var tel  = document.getElementById("tel").value
   var email= document.getElementById("email").value
-  var serie= document.getElementById("serie").value
+  var nascimento = document.getElementById("nascimento").value
+  var telefone = document.getElementById("tel").value
+  var atividades = document.querySelectorAll('.atv:checked');
+      
+  var erro = 0;
     
-      var erro = 0;
-    
- if (nome == "" || nasc == "" || email == "" || ddd == "" || ddd.length < 2 || ddd.length > 2 || atividades.length > 3){
-     erro = 1; 
+  if (nome == "" || nascimento == "" || telefone == "" || email == "" || atividades.length > 3){
+      erro = 1; 
     }
 
- if (erro == 1){
+  if (erro == 1){
     window.alert("Erro no formulario.");
 }
 
- else if (erro == 0){
-     window.alert("Cadastro feito."); 
- }
+  else if (erro == 0){
+      window.alert("Cadastro feito."); 
+  }
 }
-    </script>
+</script>
     
 
 </body>
