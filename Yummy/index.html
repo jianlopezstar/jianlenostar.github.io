@@ -21,7 +21,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-red">
+<nav class="navbar navbar-expand-lg navbar-dark bg-red sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold" href="#inicio">Dolce Vita</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar">
@@ -46,13 +46,13 @@
         <div id="carouselDolceVita" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner rounded">
                 <div class="carousel-item active">
-                    <img src="assets/img/massa.png" class="d-block w-100" alt="Massas Frescas">
+                    <img src="https://via.placeholder.com/800x450/D52B1E/FFFFFF?text=Massas+Frescas" class="d-block w-100" alt="Massas Frescas">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/img/pizza.png" class="d-block w-100" alt="Pizza Italiana">
+                    <img src="https://via.placeholder.com/800x450/008000/FFFFFF?text=Pizza+Italiana" class="d-block w-100" alt="Pizza Italiana">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/img/tiramisu.png" class="d-block w-100" alt="Tiramisù">
+                    <img src="https://via.placeholder.com/800x450/FFFFFF/333333?text=Tiramisù" class="d-block w-100" alt="Tiramisù">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselDolceVita" data-bs-slide="prev">
@@ -65,27 +65,27 @@
     </div>
 </header>
 
-<section id="cardapio" class="py-5 bg-light">
+<section id="cardapio" class="py-5">
     <div class="container">
-        <h2 class="text-center text-success mb-4">Nosso Menu</h2>
+        <h2 class="text-center text-red mb-4">Nosso Menu</h2>
         <div id="carouselMenu" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner rounded shadow">
                 <div class="carousel-item active">
-                    <img src="assets/img/massa.png" class="d-block w-100" alt="Massas">
+                    <img src="https://via.placeholder.com/800x450/D52B1E/FFFFFF?text=Massas+Artesanais" class="d-block w-100" alt="Massas">
                     <div class="carousel-caption">
                         <h5>Massas Artesanais</h5>
                         <p>Receitas tradicionais italianas</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/img/pizza.png" class="d-block w-100" alt="Pizza">
+                    <img src="https://via.placeholder.com/800x450/008000/FFFFFF?text=Pizzas+Forno+a+Lenha" class="d-block w-100" alt="Pizza">
                     <div class="carousel-caption">
                         <h5>Pizzas Italianas</h5>
                         <p>Forno a lenha e ingredientes frescos</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/img/tiramisu.png" class="d-block w-100" alt="Sobremesas">
+                    <img src="https://via.placeholder.com/800x450/FFFFFF/333333?text=Sobremesas+Divinas" class="d-block w-100" alt="Sobremesas">
                     <div class="carousel-caption">
                         <h5>Sobremesas</h5>
                         <p>O melhor da doçaria italiana</p>
@@ -105,30 +105,31 @@
 <section id="chef" class="bg-light py-5 text-center">
     <div class="container">
         <h2 class="text-red mb-4">Nosso Chef</h2>
-        <img src="assets/img/chefs/chef.png" class="img-fluid mb-3" style="max-width:300px;">
-        <h5 class="text-success">Chef Giovanni Rossi</h5>
-        <p>Especialista em culinária italiana tradicional</p>
+        <img src="https://via.placeholder.com/300x300/000000/FFFFFF?text=Chef+Giovanni+Rossi" class="img-fluid rounded-circle mb-3" style="max-width:300px;" alt="Chef Giovanni Rossi">
+        <h5 class="text-red">Chef Giovanni Rossi</h5>
+        <p>Especialista em culinária italiana tradicional, trazendo a autêntica *nonna's cooking* para sua mesa.</p>
     </div>
 </section>
 
 <section id="reservas" class="py-5">
     <div class="container">
         <h2 class="text-center text-red mb-4">Reserve sua Mesa</h2>
-        <form class="col-md-6 mx-auto border p-4">
-            <input class="form-control mb-3" placeholder="Nome" required>
+        <form class="col-md-6 mx-auto border p-4 shadow-sm rounded">
+            <input class="form-control mb-3" placeholder="Nome Completo" required>
             <input type="date" class="form-control mb-3" required>
             <input type="time" class="form-control mb-3" required>
-            <input type="number" class="form-control mb-3" placeholder="Pessoas" min="1" required>
-            <button class="btn bg-red text-white w-100">Reservar</button>
+            <input type="number" class="form-control mb-3" placeholder="Número de Pessoas" min="1" required>
+            <button type="submit" class="btn bg-red text-white w-100 fw-bold">Reservar Agora</button>
         </form>
     </div>
 </section>
 
 <footer id="contato" class="bg-red text-white py-4">
     <div class="container text-center">
-        <p>Village Dois - Maceió/AL</p>
-        <p>(82) 99876-1234</p>
-        <small>© 2025 Dolce Vita</small>
+        <h5 class="mb-3">Dolce Vita</h5>
+        <p class="mb-1"><i class="bi bi-geo-alt-fill"></i> Village Dois - Maceió/AL</p>
+        <p class="mb-1"><i class="bi bi-phone-fill"></i> (82) 99876-1234</p>
+        <small>© 2025 Dolce Vita - Todos os direitos reservados.</small>
     </div>
 </footer>
 
