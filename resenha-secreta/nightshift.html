@@ -858,10 +858,10 @@
                 
                 powerCounter--;
 
-                let drainSpeed = 5000; 
-                if (usageCounter === 2) drainSpeed = 3000; 
-                else if (usageCounter === 3) drainSpeed = 2000; 
-                else if (usageCounter >= 4) drainSpeed = 1500; 
+                let drainSpeed = 4000; 
+                if (usageCounter === 2) drainSpeed = 2000; 
+                else if (usageCounter === 3) drainSpeed = 1500; 
+                else if (usageCounter >= 4) drainSpeed = 1100; 
 
                 setTimeout(power, drainSpeed);
             }
