@@ -300,6 +300,38 @@
             let windupInterval = null; 
             
             let audioContextUnlocked = false; 
+            
+            // Variáveis para controlar o fim do GIF
+            const GIF_STOP_DELAY = 1200; // 1.2 segundos (Tempo que o GIF fica visível)
+            
+            // NOVO: URI de dados para uma imagem de 1x1 pixel totalmente preta
+            const BLACK_SCREEN_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+            // TEMPO TOTAL DO JUMPSCARE (GIF + TELA PRETA) antes de redirecionar para Game Over (1.2 segundos)
+            const JUMPSCARE_TOTAL_DURATION_MS = 1200; 
+
+            // FUNÇÃO 1: Sorteio para Bonnie, Chica, Freddy, Golden Freddy e Power Down
+            function randomGameOverDefault() {
+                // 67% chance de ir para gameover2.html, 33% para game over.html
+                const chance = Math.random() * 100;
+                if (chance <= 67) {
+                    window.location.href = 'gameover2.html'; 
+                } else {
+                    window.location.href = 'game over.html'; 
+                }
+            }
+
+            // FUNÇÃO 2: Sorteio para Foxy/Puppet (Caixa de Música)
+            function randomGameOverFoxy() {
+                // 67% chance de ir para game over_puppet.html, 33% para game over.html
+                const chance = Math.random() * 100;
+                if (chance <= 67) {
+                    window.location.href = 'game over_puppet.html'; 
+                } else {
+                    window.location.href = 'game over.html'; 
+                }
+            }
+
 
             function safeGetElement(id) {
                 const el = document.getElementById(id);
@@ -600,7 +632,13 @@
                 safeGetElement('office').src = 'nightshift/foxy/jumpscare.gif'; 
                 safePlay('specialJumpscare'); 
                 
-                setTimeout(function(){ window.location.href = 'game over_puppet.html' }, 1500); 
+                // NOVO: Interrompe o GIF após 1.2s, substituindo pela tela preta.
+                setTimeout(function() {
+                    safeGetElement('office').src = BLACK_SCREEN_SRC;
+                }, GIF_STOP_DELAY);
+
+                // REDIRECIONAMENTO ESPECÍFICO DO FOXY/PUPPET (Ajustado para 1200 ms)
+                setTimeout(function(){ randomGameOverFoxy(); }, JUMPSCARE_TOTAL_DURATION_MS); 
             }
             
 
@@ -894,7 +932,14 @@
                           gameOverCleanUp(); 
                           safeGetElement('office').src = 'nightshift/powerDown/jumpscare.gif';
                           safePlay('jumpscare');
-                          setTimeout(function(){ window.location.href = 'game over.html' }, 1900);
+                          
+                          // NOVO: Interrompe o GIF após 1.2s, substituindo pela tela preta.
+                          setTimeout(function() {
+                                safeGetElement('office').src = BLACK_SCREEN_SRC;
+                          }, GIF_STOP_DELAY);
+
+                          // REDIRECIONAMENTO PADRÃO (Ajustado para 1200 ms)
+                          setTimeout(function(){ randomGameOverDefault(); }, JUMPSCARE_TOTAL_DURATION_MS); 
                     }, randomDelay); 
 
                 } 
@@ -932,7 +977,14 @@
                         gameOverCleanUp(); 
                         safeGetElement('office').src = 'nightshift/bonnie/jumpscare.gif';
                         safePlay('jumpscare');
-                        setTimeout(function(){window.location.href = 'game over.html'}, 1100);
+                        
+                        // NOVO: Interrompe o GIF após 1.2s, substituindo pela tela preta.
+                        setTimeout(function() {
+                            safeGetElement('office').src = BLACK_SCREEN_SRC;
+                        }, GIF_STOP_DELAY);
+
+                        // REDIRECIONAMENTO PADRÃO (Ajustado para 1200 ms)
+                        setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
                         return;
                     }
                 }
@@ -987,7 +1039,14 @@
                         gameOverCleanUp(); 
                         safeGetElement('office').src = 'nightshift/chica/jumpscare.gif';
                         safePlay('oui');
-                        setTimeout(function(){window.location.href = 'game over.html'}, 1100);
+                        
+                        // NOVO: Interrompe o GIF após 1.2s, substituindo pela tela preta.
+                        setTimeout(function() {
+                            safeGetElement('office').src = BLACK_SCREEN_SRC;
+                        }, GIF_STOP_DELAY);
+
+                        // REDIRECIONAMENTO PADRÃO (Ajustado para 1200 ms)
+                        setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
                         return;
                     }
                 }
@@ -1035,7 +1094,14 @@
                         gameOverCleanUp(); 
                         safeGetElement('office').src = 'nightshift/freddy/jumpscare.gif';
                         safePlay('jumpscare');
-                        setTimeout(function(){window.location.href = 'game over.html'}, 1200);
+                        
+                        // NOVO: Interrompe o GIF após 1.2s, substituindo pela tela preta.
+                        setTimeout(function() {
+                            safeGetElement('office').src = BLACK_SCREEN_SRC;
+                        }, GIF_STOP_DELAY);
+
+                        // REDIRECIONAMENTO PADRÃO (Ajustado para 1200 ms)
+                        setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
                         return;
                     }
                 }
@@ -1075,7 +1141,14 @@
                     gameOverCleanUp();
                     safeGetElement('office').src = 'nightshift/goldenFreddy/jumpscare.gif';
                     safePlay('goldenJumpscare');
-                    setTimeout(function(){ window.location.href = 'game over.html' }, 2700);
+                    
+                    // NOVO: Interrompe o GIF após 1.2s, substituindo pela tela preta.
+                    setTimeout(function() {
+                        safeGetElement('office').src = BLACK_SCREEN_SRC;
+                    }, GIF_STOP_DELAY);
+
+                    // REDIRECIONAMENTO PADRÃO (Ajustado para 1200 ms)
+                    setTimeout(function(){ randomGameOverDefault(); }, JUMPSCARE_TOTAL_DURATION_MS); 
                 }
             }
 

@@ -75,7 +75,7 @@
 <body>
     
     <audio id="background-music" loop>
-        <source src="gameoverspecial.mp3" type="audio/mp3">
+        <source src="nightshift/audios/ilovemyfamily.mp3" type="audio/mp3">
         Seu navegador não suporta o elemento de áudio.
     </audio>
 
@@ -102,18 +102,22 @@
             const mensagemDiv = document.getElementById('mensagem');
             const music = document.getElementById('background-music');
 
-           
+            // Tenta iniciar a música imediatamente (Correção #1)
+            music.play().catch(error => {
+                console.log("Autoplay bloqueado. A música será iniciada no primeiro clique.");
+            });
 
 
             btnDie.addEventListener('click', () => {
-                mensagemDiv.innerHTML = "buddy loves music       find hes camera and play his box  this wil calm him ";
+                mensagemDiv.innerHTML = "care must be taken for the doors chiken and bear and bunny approach from the sides";
                 mensagemDiv.style.opacity = '1'; 
                 
-                music.play().catch(error => {}); 
+                // O segundo 'music.play()' foi removido (Correção #2), 
+                // pois a música já deve ter sido iniciada ou será iniciada por este clique.
 
                 setTimeout(() => {
                     window.location.href = 'nightshift.html';
-                }, 7000); 
+                }, 6000); 
                 
                 btnDie.disabled = true;
                 btnNo.disabled = true;
