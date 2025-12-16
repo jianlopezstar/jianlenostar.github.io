@@ -301,11 +301,11 @@
             
             let audioContextUnlocked = false; 
             
-            const GIF_STOP_DELAY = 1500; // Aumentado para 1.5 segundos
+            const GIF_STOP_DELAY = 1500;
             
             const BLACK_SCREEN_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-            const JUMPSCARE_TOTAL_DURATION_MS = 1500; // Aumentado para 1.5 segundos
+            const JUMPSCARE_TOTAL_DURATION_MS = 1500; 
 
             function randomGameOverDefault() {
                 const chance = Math.random() * 100;
@@ -443,7 +443,7 @@
                 const audio = safeGetElement('audio');
                 if (audio) audio.pause();
                 
-                document.body.style.backgroundColor = 'black'; // Adicionado para garantir o fundo preto
+                document.body.style.backgroundColor = 'black'; 
             }
 
             function updateOfficeImage() {
@@ -629,7 +629,7 @@
                 
                 setTimeout(function() {
                     safeGetElement('office').src = BLACK_SCREEN_SRC;
-                    document.body.style.backgroundColor = 'black'; // Garantir que o fundo seja preto
+                    document.body.style.backgroundColor = 'black';
                 }, GIF_STOP_DELAY);
 
                 setTimeout(function(){ randomGameOverFoxy(); }, JUMPSCARE_TOTAL_DURATION_MS); 
@@ -929,7 +929,7 @@
                           
                           setTimeout(function() {
                                 safeGetElement('office').src = BLACK_SCREEN_SRC;
-                                document.body.style.backgroundColor = 'black'; // Garantir que o fundo seja preto
+                                document.body.style.backgroundColor = 'black';
                           }, GIF_STOP_DELAY);
 
                           setTimeout(function(){ randomGameOverDefault(); }, JUMPSCARE_TOTAL_DURATION_MS); 
@@ -973,7 +973,7 @@
                         
                         setTimeout(function() {
                             safeGetElement('office').src = BLACK_SCREEN_SRC;
-                            document.body.style.backgroundColor = 'black'; // Garantir que o fundo seja preto
+                            document.body.style.backgroundColor = 'black'; 
                         }, GIF_STOP_DELAY);
 
                         setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
@@ -1034,7 +1034,7 @@
                         
                         setTimeout(function() {
                             safeGetElement('office').src = BLACK_SCREEN_SRC;
-                            document.body.style.backgroundColor = 'black'; // Garantir que o fundo seja preto
+                            document.body.style.backgroundColor = 'black'; 
                         }, GIF_STOP_DELAY);
 
                         setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
@@ -1088,7 +1088,7 @@
                         
                         setTimeout(function() {
                             safeGetElement('office').src = BLACK_SCREEN_SRC;
-                            document.body.style.backgroundColor = 'black'; // Garantir que o fundo seja preto
+                            document.body.style.backgroundColor = 'black'; 
                         }, GIF_STOP_DELAY);
 
                         setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
@@ -1134,7 +1134,7 @@
                     
                     setTimeout(function() {
                         safeGetElement('office').src = BLACK_SCREEN_SRC;
-                        document.body.style.backgroundColor = 'black'; // Garantir que o fundo seja preto
+                        document.body.style.backgroundColor = 'black'; 
                     }, GIF_STOP_DELAY);
 
                     setTimeout(function(){ randomGameOverDefault(); }, JUMPSCARE_TOTAL_DURATION_MS); 
