@@ -951,11 +951,11 @@
                 if (bunny === 6){
                     if (leftDoor === true){
                         bunny = (bear <= 0) ? -1 : 0;
-                        setTimeout(bonnie, 5000);
+                        setTimeout(bonnie, 3000);
                         return;
                     } else {
                         bunny = 7;
-                        setTimeout(bonnie, 5000);
+                        setTimeout(bonnie, 3000);
                         return;
                     }
                 }
@@ -963,7 +963,7 @@
                 if (bunny === 7){
                     if (leftDoor === true) {
                         bunny = (bear <= 0) ? -1 : 0;
-                        setTimeout(bonnie, 5000);
+                        setTimeout(bonnie, 3000);
                         return;
                     } else {
                         gameOverCleanUp(); 
@@ -1012,11 +1012,11 @@
                 if (chicken === 6){
                     if (rightDoor === true){
                         chicken = (bear <= 0) ? -1 : 0;
-                        setTimeout(chica, 10000);
+                        setTimeout(chica, 4000);
                         return;
                     } else {
                         chicken = 7;
-                        setTimeout(chica, 5000);
+                        setTimeout(chica, 4000);
                         return;
                     }
                 }
@@ -1024,7 +1024,7 @@
                 if (chicken === 7){
                     if (rightDoor === true) {
                         chicken = (bear <= 0) ? -1 : 0;
-                        setTimeout(chica, 10000);
+                        setTimeout(chica, 4000);
                         return;
                     } else {
                         gameOverCleanUp(); 
@@ -1048,7 +1048,7 @@
                             camera(currentCam, true);
                         }
                     }
-                    setTimeout(chica, 6000);
+                    setTimeout(chica, 4000);
                 }
             }
 
@@ -1066,7 +1066,7 @@
                 if (bear === 6){
                     if (rightDoor === true){
                         bear = -1;
-                        setTimeout(freddy, 12000);
+                        setTimeout(freddy, 5000);
                         return;
                     } else {
                         bear = 7;
@@ -1078,7 +1078,7 @@
                 if (bear === 7){
                     if (rightDoor === true) {
                         bear = -1; 
-                        setTimeout(freddy, 12000);
+                        setTimeout(freddy, 5000);
                         return;
                     } else {
                         gameOverCleanUp(); 
@@ -1102,7 +1102,7 @@
                             camera(currentCam, true);
                         }
                     }
-                    setTimeout(freddy, 12000);
+                    setTimeout(freddy, 5000);
                 }
             }
 
