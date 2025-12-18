@@ -95,30 +95,9 @@
         }
     }
 
-    function unlockOnce(){
-        try {
-            audio.muted = true;
-            const p = audio.play();
-
-            if (p) {
-                p.then(() => {
-                    audio.pause();
-                    audio.currentTime = 0;
-                    audio.muted = false;
-                    window.removeEventListener("click", unlockOnce);
-                }).catch(() => {
-                    window.removeEventListener("click", unlockOnce);
-                });
-            }
-        } catch(e) {
-            window.removeEventListener("click", unlockOnce);
-        }
-    }
-
     document.getElementById("unlockBtn").onclick = function(){
         try {
-            audio.currentTime = 0;
-            const p = audio.play();
+            audio.play();
             document.getElementById("unlockAudioBtn").style.display = "none";
         } catch(e){
             document.getElementById("unlockAudioBtn").style.display = "none";
@@ -126,7 +105,6 @@
     };
 
     tryPlayAudio();
-    window.addEventListener("click", unlockOnce, { once: true });
 })();
 </script>
 
