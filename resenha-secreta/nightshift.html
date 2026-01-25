@@ -195,8 +195,6 @@
             #powerTxt { top: 80%; left: 3%; }
             #usageTxt { top: 87%; left: 3%; }
 
-         
-
             #warningOverlay {
                 position: absolute;
                 top: 0;
@@ -283,9 +281,8 @@
                     بُدّي يَخْتَبِئُ عُلْبَةُ مَوسِيقِيَّةِ
                 </span>
             </p>
-
-          
         </div>
+
         <img src='nightshift/office-open.png' id='office' class="office-layer" width='100%' height='100%' style='position: absolute; top: 0%; left: 0%;'>
         <img src='nightshift/goldenFreddy/office.png' id='goldenOffice' class="animatronic-layer" width='115%' style='position: absolute; top: 10%; left: -7%; visibility: hidden;'>
         <img src='nightshift/kitchen.png' id='camera' class="cam-layer" width='100%' height='100%' style='position: absolute; top: 0%; left: 0%; visibility: hidden;'>
@@ -306,13 +303,11 @@
             <span class="cam-number">0</span>
         </div>
     
-      
         <div class="cam-container ui-layer" style='top: 61%; left: 94%;'>
             <img src='nightshift/camOff.png' id='kitchen' onclick='camera(5)' class="clickable" width='100%' height='100%'>
             <span class="cam-number">5</span>
         </div>
        
-      
         <div class="cam-container ui-layer" style='top: 73%; left: 78%;'>
             <img src='nightshift/camOff.png' id='westCorner' onclick='camera(8)' class="clickable" width='100%' height='100%'>
             <span class="cam-number">8</span>
@@ -321,11 +316,6 @@
         <div class="cam-container ui-layer" style='top: 73%; left: 86%;'>
             <img src='nightshift/camOff.png' id='eastCorner' onclick='camera(10)' class="clickable" width='100%' height='100%'>
             <span class="cam-number">10</span>
-
-
-
-          
-            <img id="chicaInOffice" src="nightshift/chica/office.png" class="office-layer" style="position: absolute; right: 10%; bottom: 0; height: 90%; display: none; z-index: 5;">
         </div>
         
         <p id='timerTxt' class="ui-layer ui-layer-text">12:00 AM</p>
@@ -348,65 +338,19 @@
 
         <div id='debugMenu'>
             <h4>DEBUG MENU (I)</h4>
-            
-            <label>Hora: 
-                <input type='number' id='debugTime' value='12' min='1' max='6' onchange='debugSetTime(this.value)'> AM
-            </label>
-            
-            <label>Power: 
-                <input type='number' id='debugPower' value='100' min='0' max='100' onchange='debugSetPower(this.value)'> %
-            </label>
-            
-            <label>Music Box: 
-                <input type='number' id='debugMusicBox' value='100' min='0' max='100' onchange='debugSetMusicBox(this.value)'> %
-            </label>
-
-            <label>Bonnie Pos: 
-                <select id='debugBonniePos' onchange='debugSetAnimatronic("bunny", this.value)'>
-                    <option value='-1'>Start</option>
-                    <option value='0'>Show Stage</option>
-                    <option value='1'>Dining Area</option>
-                    <option value='2'>Backstage</option>
-                    <option value='3'>West Hall</option>
-                    <option value='4'>Supply Closet</option>
-                    <option value='5'>West Corner</option>
-                    <option value='6'>Door</option>
-                    <option value='7'>Jumpscare</option>
-                </select>
-            </label>
-
-            <label>Chica Pos: 
-                <select id='debugChicaPos' onchange='debugSetAnimatronic("chicken", this.value)'>
-                    <option value='-1'>Start</option>
-                    <option value='0'>Show Stage</option>
-                    <option value='1'>Dining Area</option>
-                    <option value='2'>Restrooms</option>
-                    <option value='3'>Kitchen</option>
-                    <option value='4'>East Hall</option>
-                    <option value='5'>East Corner</option>
-                    <option value='6'>Door</option>
-                    <option value='7'>Jumpscare</option>
-                </select>
-            </label>
-            
-            <label>Freddy Pos: 
-                <select id='debugFreddyPos' onchange='debugSetAnimatronic("bear", this.value)'>
-                    <option value='-1'>Start</option>
-                    <option value='0'>Show Stage</option>
-                    <option value='1'>Dining Area</option>
-                    <option value='2'>Restrooms</option>
-                    <option value='3'>Kitchen</option>
-                    <option value='4'>East Hall</option>
-                    <option value='5'>East Corner</option>
-                    <option value='6'>Door</option>
-                    <option value='7'>Jumpscare</option>
-                </select>
-            </label>
-            
-            <label>Foxy Stage: 
-                <input type='number' id='debugFoxy' value='0' min='0' max='5' onchange='debugSetAnimatronic("fox", this.value)'> (0-5)
-            </label>
-
+            <label>Hora: <input type='number' id='debugTime' value='12' min='1' max='6' onchange='debugSetTime(this.value)'> AM</label>
+            <label>Power: <input type='number' id='debugPower' value='100' min='0' max='100' onchange='debugSetPower(this.value)'> %</label>
+            <label>Music Box: <input type='number' id='debugMusicBox' value='100' min='0' max='100' onchange='debugSetMusicBox(this.value)'> %</label>
+            <label>Bonnie Pos: <select id='debugBonniePos' onchange='debugSetAnimatronic("bunny", this.value)'>
+                <option value='-1'>Start</option><option value='0'>Show Stage</option><option value='1'>Dining Area</option><option value='2'>Backstage</option><option value='3'>West Hall</option><option value='4'>Supply Closet</option><option value='5'>West Corner</option><option value='6'>Door</option><option value='7'>Jumpscare</option>
+            </select></label>
+            <label>Chica Pos: <select id='debugChicaPos' onchange='debugSetAnimatronic("chicken", this.value)'>
+                <option value='-1'>Start</option><option value='0'>Show Stage</option><option value='1'>Dining Area</option><option value='2'>Restrooms</option><option value='3'>Kitchen</option><option value='4'>East Hall</option><option value='5'>East Corner</option><option value='6'>Door</option><option value='7'>Jumpscare</option>
+            </select></label>
+            <label>Freddy Pos: <select id='debugFreddyPos' onchange='debugSetAnimatronic("bear", this.value)'>
+                <option value='-1'>Start</option><option value='0'>Show Stage</option><option value='1'>Dining Area</option><option value='2'>Restrooms</option><option value='3'>Kitchen</option><option value='4'>East Hall</option><option value='5'>East Corner</option><option value='6'>Door</option><option value='7'>Jumpscare</option>
+            </select></label>
+            <label>Foxy Stage: <input type='number' id='debugFoxy' value='0' min='0' max='5' onchange='debugSetAnimatronic("fox", this.value)'> (0-5)</label>
             <button onclick='debugTriggerJumpscare("bonnie")'>Jumpscare Bonnie</button>
             <button onclick='debugTriggerJumpscare("chica")'>Jumpscare Chica</button>
             <button onclick='debugTriggerJumpscare("freddy")'>Jumpscare Freddy</button>
@@ -472,7 +416,6 @@
             let audioContextUnlocked = false; 
             let jumpscareActive = false;
             let goldenTimer = null; 
-            const GIF_STOP_DELAY = 1550;
             const BLACK_SCREEN_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
             const JUMPSCARE_TOTAL_DURATION_MS = 1550; 
             const JUMPSCARE_DURATIONS = {
@@ -492,46 +435,11 @@
                 fox: 5
             };
 
-;
-
-
-
-function chica() {
-    if (jumpscareActive || powerCounter <= 0) return;
-
-    
-
-    if (chicken === 6) { 
-        if (rightDoor) {
-            chicken = 2; 
-            rightDoor = false;
-            safePlay('doorClose');
-        } else { 
-            enterOfficeChica();
-        }
-    }
-    
-}
-
-
-}
-
             function updateDifficultyByHour() {
-                if (timerCounter === 2) {
-                    aiLevels.bunny += 1;
-                } else if (timerCounter === 3) {
-                    aiLevels.bunny += 1;
-                    aiLevels.chicken += 1;
-                    aiLevels.fox += 1;
-                } else if (timerCounter === 4) {
-                    aiLevels.bunny += 1;
-                    aiLevels.chicken += 1;
-                    aiLevels.bear += 1;
-                } else if (timerCounter === 5 || timerCounter === 6) {
-                    aiLevels.bunny += 2;
-                    aiLevels.chicken += 2;
-                    aiLevels.fox += 1;
-                }
+                if (timerCounter === 2) aiLevels.bunny += 1;
+                else if (timerCounter === 3) { aiLevels.bunny += 1; aiLevels.chicken += 1; aiLevels.fox += 1; }
+                else if (timerCounter === 4) { aiLevels.bunny += 1; aiLevels.chicken += 1; aiLevels.bear += 1; }
+                else if (timerCounter === 5 || timerCounter === 6) { aiLevels.bunny += 2; aiLevels.chicken += 2; aiLevels.fox += 1; }
             }
 
             document.addEventListener("keydown", function(event) {
@@ -546,11 +454,6 @@ function chica() {
                 if (event.code === "Space") {
                     event.preventDefault();
                     handleMonitorClick();
-                    const visible = tablet ? 'visible' : 'hidden';
-                    document.getElementById('camera').style.visibility = visible;
-                    document.getElementById('static').style.visibility = visible;
-                    document.getElementById('map').style.visibility = visible;
-                    document.querySelectorAll('.cam-container').forEach(el => el.style.visibility = visible);
                 }
                 if (event.code === "KeyA") leftDoorToggle();
                 if (event.code === "KeyD") rightDoorToggle();
@@ -597,30 +500,11 @@ function chica() {
             }
             
             function selectNextMusicBoxTrack() {
-                const weightedTracks = [
-                    { id: 'musicBox1', weight: 0 }, 
-                    { id: 'musicBox2', weight: 40 }, 
-                    { id: 'musicBox3', weight: 40 }
-                ];
-                const totalWeight = weightedTracks.reduce((sum, track) => sum + track.weight, 0);
-                let random = Math.random() * totalWeight;
-                if (totalWeight === 0) {
-                     activeMusicBoxID = Math.random() < 0.5 ? 'musicBox2' : 'musicBox3';
-                     return;
-                }
-                for (const track of weightedTracks) {
-                    if (random < track.weight) {
-                        activeMusicBoxID = track.id;
-                        return;
-                    }
-                    random -= track.weight;
-                }
-                activeMusicBoxID = 'musicBox2'; 
+                activeMusicBoxID = Math.random() < 0.5 ? 'musicBox2' : 'musicBox3';
             }
 
             function setupMusicBoxListeners() {
-                const trackIDs = ['musicBox1', 'musicBox2', 'musicBox3'];
-                trackIDs.forEach(id => {
+                ['musicBox1', 'musicBox2', 'musicBox3'].forEach(id => {
                     const track = safeGetElement(id);
                     if (track) {
                         track.loop = false; 
@@ -654,20 +538,14 @@ function chica() {
             function updateOfficeImage() {
                 const officeImg = safeGetElement('office');
                 let state = 'open';
-            
                 if (leftDoor && rightDoor) state = 'closed';
                 else if (leftDoor) state = 'left-door';
                 else if (rightDoor) state = 'right-door';
-            
                 let finalImg = `nightshift/office-${state}.png`;
-            
-                if (bunny === 6 && !leftDoor && !tablet) {
-                    finalImg = 'nightshift/bonnie/office-light-left.png';
-                } else if ((chicken === 6 || bear === 6) && !rightDoor && !tablet) {
-                    if (chicken === 6) finalImg = 'nightshift/chica/office-light-right.png';
-                    else finalImg = 'nightshift/freddy/office-light-right.png';
+                if (bunny === 6 && !leftDoor && !tablet) finalImg = 'nightshift/bonnie/office-light-left.png';
+                else if ((chicken === 6 || bear === 6) && !rightDoor && !tablet) {
+                    finalImg = (chicken === 6) ? 'nightshift/chica/office-light-right.png' : 'nightshift/freddy/office-light-right.png';
                 }
-            
                 officeImg.src = finalImg;
             }
 
@@ -688,21 +566,17 @@ function chica() {
                 if (!bar || !indicator || !musicBoxText) return;
                 const percent = Math.max(0, musicBoxTime);
                 bar.style.width = percent + '%';
-                const inDangerGrace = musicBoxGraceTime > 0;
                 if (percent > 50) bar.style.backgroundColor = '#999999'; 
                 else if (percent > 20) bar.style.backgroundColor = '#666666'; 
                 else bar.style.backgroundColor = '#ff0000'; 
-                if (inDangerGrace) {
+                if (musicBoxGraceTime > 0) {
                     musicBoxText.style.visibility = 'hidden'; 
                     indicator.innerText = ''; 
                     safeGetElement('musicBoxArea').style.borderColor = 'red';
-                    safeGetElement('musicBoxArea').style.backgroundColor = 'darkred';
                 } else {
                     musicBoxText.style.visibility = 'visible'; 
                     safeGetElement('musicBoxArea').style.borderColor = 'white';
-                    safeGetElement('musicBoxArea').style.backgroundColor = '#333';
-                    if (percent <= 0) indicator.innerText = 'EMPTY! DANGER!';
-                    else indicator.innerText = 'WIND UP مع السلامة';
+                    indicator.innerText = (percent <= 0) ? 'EMPTY! DANGER!' : 'WIND UP مع السلامة';
                 }
             }
 
@@ -711,93 +585,54 @@ function chica() {
                 if (musicBoxGraceTime > 0) {
                     musicBoxGraceTime = Math.max(0, musicBoxGraceTime - 0.05); 
                     if (musicBoxGraceTime <= 0) {
-                        stopAllMusicBoxTracks();
                         handleMusicBoxJumpscare();
                         return; 
                     }
-                    if (musicBoxTime > 0) {
-                        musicBoxGraceTime = 0; 
-                        fox = 0; 
-                        musicBoxFinished = false; 
-                        safePause('creepyMusic'); 
-                    }
                 } else if (musicBoxTime <= 0) {
                     if (!musicBoxFinished) { 
-                        fox = 1; 
-                        musicBoxFinished = true; 
-                        let randomDelay = Math.floor(Math.random() * 7001) + 4000;
-                        musicBoxGraceTime = randomDelay / 1000; 
-                        safePlay('creepyMusic', false); 
-                        safePlay('dangerWarning'); 
+                        fox = 1; musicBoxFinished = true; 
+                        musicBoxGraceTime = (Math.floor(Math.random() * 7001) + 4000) / 1000; 
+                        safePlay('creepyMusic', false); safePlay('dangerWarning'); 
                     }
                 } else {
                     if (!isWinding) musicBoxTime = Math.max(0, musicBoxTime - musicBoxDrainRate); 
                     fox = 0; 
                 }
                 if (musicBoxTime > 0 && tablet && currentCam === 5) { 
-                    const activeTrack = safeGetElement(activeMusicBoxID);
-                    if (activeTrack && activeTrack.paused) playActiveMusicBoxTrack();
-                } else {
-                    stopAllMusicBoxTracks();
-                }
+                    if (safeGetElement(activeMusicBoxID).paused) playActiveMusicBoxTrack();
+                } else stopAllMusicBoxTracks();
                 safeGetElement('dangerOverlay').style.display = musicBoxGraceTime > 0 ? 'block' : 'none';
                 updateMusicBoxUI();
                 setTimeout(tickMusicBox, 50); 
             }
 
             function windUpMusicBox(isHolding) {
-                const stopWinding = musicBoxJumpscareInProgress || powerCounter <= 0 || bearOutage === 1 || !tablet || currentCam !== 5 || musicBoxFinished || jumpscareActive;
-                if (stopWinding) {
-                    isWinding = false;
-                    if (windupInterval) clearInterval(windupInterval);
-                    windupInterval = null;
-                    return;
+                if (musicBoxJumpscareInProgress || powerCounter <= 0 || !tablet || currentCam !== 5 || musicBoxFinished || jumpscareActive) {
+                    isWinding = false; if (windupInterval) clearInterval(windupInterval); windupInterval = null; return;
                 }
                 isWinding = isHolding;
-                if (isHolding) {
-                    if (windupInterval === null) {
-                        safePlay('windupEffect'); 
-                        windupInterval = setInterval(() => {
-                            if (isWinding) { 
-                                safePlay('windupEffect'); 
-                                musicBoxTime = Math.min(100, musicBoxTime + 3); 
-                                updateMusicBoxUI();
-                            } else {
-                                clearInterval(windupInterval);
-                                windupInterval = null;
-                            }
-                        }, 200); 
-                    }
-                } else {
-                    if (windupInterval) clearInterval(windupInterval);
-                    windupInterval = null;
+                if (isHolding && windupInterval === null) {
+                    safePlay('windupEffect'); 
+                    windupInterval = setInterval(() => {
+                        if (isWinding) { safePlay('windupEffect'); musicBoxTime = Math.min(100, musicBoxTime + 3); updateMusicBoxUI(); }
+                        else { clearInterval(windupInterval); windupInterval = null; }
+                    }, 200); 
                 }
-                updateMusicBoxUI(); 
             }
             
             function handleMusicBoxJumpscare() {
                 if (musicBoxJumpscareInProgress || jumpscareActive) return;
-                musicBoxJumpscareInProgress = true;
-                jumpscareActive = true;
-                stopAllMusicBoxTracks();
-                safePause('creepyMusic');
+                musicBoxJumpscareInProgress = true; jumpscareActive = true;
                 gameOverCleanUp();
                 safeGetElement('office').src = 'nightshift/foxy/jumpscare.gif'; 
                 safePlay('specialJumpscare'); 
-                setTimeout(function() {
-                    safeGetElement('office').src = BLACK_SCREEN_SRC;
-                    document.body.style.backgroundColor = 'black';
-                }, JUMPSCARE_DURATIONS.FOXY_PUPPET); 
-                setTimeout(function(){ randomGameOverFoxy(); }, JUMPSCARE_TOTAL_DURATION_MS); 
+                setTimeout(() => { safeGetElement('office').src = BLACK_SCREEN_SRC; }, JUMPSCARE_DURATIONS.FOXY_PUPPET); 
+                setTimeout(() => { randomGameOverFoxy(); }, JUMPSCARE_TOTAL_DURATION_MS); 
             }
 
             function updateUI() {
-                updateOfficeImage(); 
-                usage();
-                if (!tablet) {
-                    safeGetElement('musicBoxUI').style.visibility = 'hidden';
-                    stopAllMusicBoxTracks(); 
-                }
+                updateOfficeImage(); usage();
+                if (!tablet) { safeGetElement('musicBoxUI').style.visibility = 'hidden'; stopAllMusicBoxTracks(); }
                 const doorsVisible = !tablet && bearOutage === 0 && !jumpscareActive;
                 safeGetElement('leftButtom').src = leftDoor ? 'nightshift/leftOn.png' : 'nightshift/leftOff.png';
                 safeGetElement('leftButtom').style.visibility = doorsVisible ? 'visible' : 'hidden';
@@ -812,18 +647,12 @@ function chica() {
 
             function leftDoorToggle(){
                 if (powerCounter <= 0 || bearOutage === 1 || tablet || jumpscareActive) return;
-                leftDoor = !leftDoor;
-                usageCounter += leftDoor ? 1 : -1;
-                safePlay('door');
-                updateUI(); 
+                leftDoor = !leftDoor; usageCounter += leftDoor ? 1 : -1; safePlay('door'); updateUI(); 
             }
 
             function rightDoorToggle(){
                 if (powerCounter <= 0 || bearOutage === 1 || tablet || jumpscareActive) return;
-                rightDoor = !rightDoor;
-                usageCounter += rightDoor ? 1 : -1;
-                safePlay('door');
-                updateUI(); 
+                rightDoor = !rightDoor; usageCounter += rightDoor ? 1 : -1; safePlay('door'); updateUI(); 
             }
             
             function handleMonitorClick(){
@@ -834,84 +663,48 @@ function chica() {
                 safeGetElement('static').style.visibility = visible;
                 safeGetElement('map').style.visibility = visible;
                 document.querySelectorAll('.cam-container').forEach(el => el.style.visibility = visible);
-                if (!tablet) safeGetElement('musicBoxUI').style.visibility = 'hidden';
-                stopAllMusicBoxTracks();
-                if (musicBoxGraceTime <= 0) safePause('creepyMusic');
-                if (!tablet) windUpMusicBox(false);
-                if (tablet) {
-                    safePlay('tabletOn');
-                    safePlay('ambienceCamera', false);
-                    usageCounter++;
-                    camera(currentCam, true); 
-                    clearGoldenState(); 
-                } else {
-                    safePause('ambienceCamera');
-                    safePlay('tabletOff');
-                    usageCounter--;
-                    windUpMusicBox(false); 
-                    goldenAI(); 
-                }
+                if (!tablet) { safeGetElement('musicBoxUI').style.visibility = 'hidden'; windUpMusicBox(false); safePause('ambienceCamera'); safePlay('tabletOff'); usageCounter--; goldenAI(); }
+                else { safePlay('tabletOn'); safePlay('ambienceCamera', false); usageCounter++; camera(currentCam, true); clearGoldenState(); }
                 updateUI(); 
             }
+
             function camera(camCounter, noBlip = false) {
                 if (!tablet || jumpscareActive) return;
-                currentCam = camCounter;
-                if (!noBlip) safePlay('blip');
+                currentCam = camCounter; if (!noBlip) safePlay('blip');
                 stopAllMusicBoxTracks();
-                
-                if (camCounter === 5) {
-                    safeGetElement('musicBoxUI').style.visibility = 'visible';
-                    if (musicBoxTime > 0) playActiveMusicBoxTrack();
-                } else {
-                    safeGetElement('musicBoxUI').style.visibility = 'hidden';
-                    windUpMusicBox(false);
-                }
-            
-                let basePath = 'nightshift/';
-                let imgName = '';
-            
+                if (camCounter === 5) { safeGetElement('musicBoxUI').style.visibility = 'visible'; if (musicBoxTime > 0) playActiveMusicBoxTrack(); }
+                else { safeGetElement('musicBoxUI').style.visibility = 'hidden'; windUpMusicBox(false); }
+                let imgName = 'cam' + camCounter + '.png'; 
                 if (camCounter === 0) {
                     if (bunny >= 0) imgName = 'bonnie/showStage.png';
                     else if (chicken >= 0) imgName = 'chica/showStageB.png';
                     else if (bear >= 0) imgName = 'freddy/showStage.png';
                     else imgName = 'showStage.png';
-                } 
-                else if (camCounter === 8) {
-                    imgName = (bunny === 5) ? 'bonnie/westCorner.png' : 'westCorner.png';
-                } 
+                } else if (camCounter === 8) imgName = (bunny === 5) ? 'bonnie/westCorner.png' : 'westCorner.png';
                 else if (camCounter === 10) {
                     if (chicken === 5) imgName = 'chica/eastCorner.png';
                     else if (bear === 5) imgName = 'freddy/eastCorner.png';
                     else imgName = 'eastCorner.png';
-                } 
-                else if (camCounter === 5) {
+                } else if (camCounter === 5) {
                     if (chicken === 3) imgName = 'chica/kitchen.png';
                     else if (bear === 3) imgName = 'freddy/kitchen.png';
                     else imgName = 'cam6.png';
-                } else {
-                    imgName = 'cam' + camCounter + '.png'; 
                 }
-            
-                safeGetElement('camera').src = basePath + imgName;
+                safeGetElement('camera').src = 'nightshift/' + imgName;
             }
+
             function staticEffect(){
-                const st = safeGetElement('static');
-                if (!st) return;
-                st.style.opacity = 1;
-                setTimeout(function(){ if (st) st.style.opacity = 0.3; }, 500);
+                const st = safeGetElement('static'); if (!st) return;
+                st.style.opacity = 1; setTimeout(() => { if (st) st.style.opacity = 0.3; }, 500);
             }
 
             function timer(){
-                const timerTxt = safeGetElement('timerTxt');
-                if (!timerTxt) return;
+                const timerTxt = safeGetElement('timerTxt'); if (!timerTxt) return;
                 timerTxt.innerText = timerCounter + (timerCounter === 12 ? ':00 AM' : ' AM');
-                updateDifficultyByHour();
-                timerCounter++;
+                updateDifficultyByHour(); timerCounter++;
                 if (timerCounter > 12) timerCounter = 1;
                 if (timerCounter === 7) { triggerWinSequence(); return; } 
-                const delay = (timerCounter === 1 || timerCounter === 12) ? 25000 : 24000;
-                setTimeout(timer, delay);
-                if (isDebugMenuOpen) safeGetElement('debugTime').value = timerCounter === 1 ? 12 : timerCounter - 1;
+                setTimeout(timer, (timerCounter === 1 || timerCounter === 12) ? 25000 : 24000);
             }
 
             function power(){
@@ -920,28 +713,18 @@ function chica() {
                 let drainSpeed = usageCounter === 2 ? 1800 : usageCounter === 3 ? 1300 : usageCounter >= 4 ? 950 : 3500;
                 setTimeout(power, drainSpeed);
                 safeGetElement('powerTxt').innerText = `POWER LEFT: ${powerCounter}%`;
-                if (isDebugMenuOpen) safeGetElement('debugPower').value = powerCounter;
             }
 
             function powerDown(){
                 if (bearOutage === 0) {
-                    bearOutage = 1;
-                    if(tablet) handleMonitorClick(); 
-                    gameOverCleanUp(); 
-                    safeGetElement('office').src = 'nightshift/434.png'; 
-                    safePlay('powerDown');
-                    setTimeout(function(){ safePlay('musicBox1'); }, 5000); 
-                    setTimeout(function(){
-                          stopAllMusicBoxTracks();
-                          gameOverCleanUp();
-                          jumpscareActive = true;
-                          safeGetElement('office').src = 'nightshift/freddy/jumpscare.gif';
-                          safePlay('jumpscare');
-                          setTimeout(function() {
-                                safeGetElement('office').src = BLACK_SCREEN_SRC;
-                                document.body.style.backgroundColor = 'black';
-                          }, JUMPSCARE_DURATIONS.POWER_OUTAGE); 
-                          setTimeout(function(){ window.location.href = 'gameoverpowerdown.html'; }, JUMPSCARE_TOTAL_DURATION_MS); 
+                    bearOutage = 1; if(tablet) handleMonitorClick(); gameOverCleanUp(); 
+                    safeGetElement('office').src = 'nightshift/434.png'; safePlay('powerDown');
+                    setTimeout(() => { safePlay('musicBox1'); }, 5000); 
+                    setTimeout(() => {
+                        stopAllMusicBoxTracks(); jumpscareActive = true;
+                        safeGetElement('office').src = 'nightshift/freddy/jumpscare.gif'; safePlay('jumpscare');
+                        setTimeout(() => { safeGetElement('office').src = BLACK_SCREEN_SRC; }, JUMPSCARE_DURATIONS.POWER_OUTAGE); 
+                        setTimeout(() => { window.location.href = 'gameoverpowerdown.html'; }, JUMPSCARE_TOTAL_DURATION_MS); 
                     }, Math.floor(Math.random() * 5001) + 10000); 
                 } 
             }
@@ -957,27 +740,16 @@ function chica() {
                     else if (bunny === 4) bunny = 3;
                     else if (bunny === 5) bunny = 6;
                     if (bunny === 6){
-                        if (leftDoor === true) bunny = (bear <= 0) ? -1 : 0; 
-                        else bunny = 7;
-                    }
-                    if (bunny === 7){
-                        if (leftDoor === true) bunny = (bear <= 0) ? -1 : 0;
+                        if (leftDoor) bunny = (bear <= 0) ? -1 : 0; 
                         else {
-                            jumpscareActive = true;
-                            gameOverCleanUp(); 
-                            safeGetElement('office').src = 'nightshift/bonnie/jumpscare.gif';
-                            safePlay('jumpscare');
-                            setTimeout(function() { safeGetElement('office').src = BLACK_SCREEN_SRC; document.body.style.backgroundColor = 'black'; }, JUMPSCARE_DURATIONS.BONNIE); 
-                            setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
-                            return;
+                            jumpscareActive = true; gameOverCleanUp(); 
+                            safeGetElement('office').src = 'nightshift/bonnie/jumpscare.gif'; safePlay('jumpscare');
+                            setTimeout(() => { safeGetElement('office').src = BLACK_SCREEN_SRC; }, JUMPSCARE_DURATIONS.BONNIE); 
+                            setTimeout(() => { randomGameOverDefault(); }, JUMPSCARE_TOTAL_DURATION_MS); return;
                         }
                     }
-                    if (bunny < 6) {
-                        safePlay('walk' + (Math.floor(Math.random() * 5) + 1));
-                        if (tablet) { staticEffect(); if ([0, 1, 2, 6, 7, 8].includes(currentCam)) camera(currentCam, true); }
-                    }
+                    if (bunny < 6) { safePlay('walk' + (Math.floor(Math.random() * 5) + 1)); if (tablet) staticEffect(); }
                 }
-                if (isDebugMenuOpen) updateDebugUI();
                 setTimeout(bonnie, 4970);
             }
 
@@ -987,29 +759,20 @@ function chica() {
                     if (chicken === -1) chicken = 0;
                     else if (chicken === 0) chicken = 1;
                     else if (chicken === 1) chicken = Math.floor(Math.random() * 3) + 2;
-                    else if (chicken === 2) chicken = 1;
-                    else if (chicken === 3) chicken = 1;
+                    else if (chicken === 2 || chicken === 3) chicken = 1;
                     else if (chicken === 4) chicken = 5;
                     else if (chicken === 5) chicken = 6;
                     if (chicken === 6){
-                        if (rightDoor === true) chicken = (bear <= 0) ? -1 : 0;
-                        else chicken = 7;
-                    }
-                    if (chicken === 7){
-                        if (rightDoor === true) chicken = (bear <= 0) ? -1 : 0;
+                        if (rightDoor) chicken = (bear <= 0) ? -1 : 0;
                         else {
-                            jumpscareActive = true;
-                            gameOverCleanUp(); 
-                            safeGetElement('office').src = 'nightshift/chica/jumpscare.gif';
-                            safePlay('oui');
-                            setTimeout(function() { safeGetElement('office').src = BLACK_SCREEN_SRC; document.body.style.backgroundColor = 'black'; }, JUMPSCARE_DURATIONS.CHICA); 
-                            setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
-                            return;
+                            jumpscareActive = true; gameOverCleanUp(); 
+                            safeGetElement('office').src = 'nightshift/chica/jumpscare.gif'; safePlay('oui');
+                            setTimeout(() => { safeGetElement('office').src = BLACK_SCREEN_SRC; }, JUMPSCARE_DURATIONS.CHICA); 
+                            setTimeout(() => { randomGameOverDefault(); }, JUMPSCARE_TOTAL_DURATION_MS); return;
                         }
                     }
-                    if (chicken < 6 && tablet) { staticEffect(); if ([0, 1, 4, 5, 9, 10].includes(currentCam)) camera(currentCam, true); }
+                    if (chicken < 6 && tablet) staticEffect();
                 }
-                if (isDebugMenuOpen) updateDebugUI();
                 setTimeout(chica, 4980);
             }
 
@@ -1020,62 +783,43 @@ function chica() {
                     if (bear === -1) bear = 0;
                     else if (bear === 0) bear = 1;
                     else if (bear === 1) bear = Math.floor(Math.random() * 3) + 2;
-                    else if (bear === 2) bear = 1;
-                    else if (bear === 3) bear = 1;
+                    else if (bear === 2 || bear === 3) bear = 1;
                     else if (bear === 4) bear = 5;
                     else if (bear === 5) bear = 6;
                     if (bear === 6){
-                        if (rightDoor === true) bear = -1;
-                        else bear = 7;
-                    }
-                    if (bear === 7){
-                        if (rightDoor === true) bear = -1;
+                        if (rightDoor) bear = -1;
                         else {
-                            jumpscareActive = true;
-                            gameOverCleanUp(); 
-                            safeGetElement('office').src = 'nightshift/freddy/jumpscare.gif';
-                            safePlay('jumpscare');
-                            setTimeout(function() { safeGetElement('office').src = BLACK_SCREEN_SRC; document.body.style.backgroundColor = 'black'; }, JUMPSCARE_DURATIONS.FREDDY); 
-                            setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
-                            return;
+                            jumpscareActive = true; gameOverCleanUp(); 
+                            safeGetElement('office').src = 'nightshift/freddy/jumpscare.gif'; safePlay('jumpscare');
+                            setTimeout(() => { safeGetElement('office').src = BLACK_SCREEN_SRC; }, JUMPSCARE_DURATIONS.FREDDY); 
+                            setTimeout(() => { randomGameOverDefault(); }, JUMPSCARE_TOTAL_DURATION_MS); return;
                         }
                     }
-                    if (bear < 6 && tablet) { staticEffect(); if ([0, 1, 4, 5, 9, 10].includes(currentCam)) camera(currentCam, true); }
+                    if (bear < 6 && tablet) staticEffect();
                 }
-                if (isDebugMenuOpen) updateDebugUI();
                 setTimeout(freddy, 3020);
             }
 
             function triggerGoldenAttack() {
                 if (jumpscareActive) return;
-                jumpscareActive = true;
-                gameOverCleanUp();
-                safeGetElement('office').src = "nightshift/goldenFreddy/jumpscare.png";
-                safePlay('goldenJumpscare');
-                setTimeout(function() { safeGetElement('office').src = BLACK_SCREEN_SRC; document.body.style.backgroundColor = 'black'; }, JUMPSCARE_DURATIONS.GOLDEN_FREDDY); 
-                setTimeout(function(){ window.location.href = 'gameovergolden.html'; }, JUMPSCARE_TOTAL_DURATION_MS); 
+                jumpscareActive = true; gameOverCleanUp();
+                safeGetElement('office').src = "nightshift/goldenFreddy/jumpscare.png"; safePlay('goldenJumpscare');
+                setTimeout(() => { safeGetElement('office').src = BLACK_SCREEN_SRC; }, JUMPSCARE_DURATIONS.GOLDEN_FREDDY); 
+                setTimeout(() => { window.location.href = 'gameovergolden.html'; }, JUMPSCARE_TOTAL_DURATION_MS); 
                 clearGoldenState(); 
             }
 
             function clearGoldenState() {
-                if (goldenTimer) clearTimeout(goldenTimer);
-                goldenTimer = null;
-                safeGetElement('goldenOffice').style.visibility = 'hidden';
-                goldenScare = 0;
-                goldenRandom = 0;
+                if (goldenTimer) clearTimeout(goldenTimer); goldenTimer = null;
+                safeGetElement('goldenOffice').style.visibility = 'hidden'; goldenScare = 0; goldenRandom = 0;
             }
 
             function goldenAI() {
                 if (powerCounter <= 0 || bearOutage === 1 || tablet || jumpscareActive || goldenScare === 1) return;
-                goldenRandom = Math.floor(Math.random() * 5); 
-                if (goldenRandom === 4) {
-                    safeGetElement('goldenOffice').style.visibility = 'visible';
-                    safePlay('goldenLaugh');
-                    goldenScare = 1;
-                    goldenTimer = setTimeout(function() { if (goldenScare === 1 && !tablet && !jumpscareActive) triggerGoldenAttack(); }, 3000); 
-                } else {
-                    clearGoldenState();
-                }
+                if (Math.floor(Math.random() * 5) === 4) {
+                    safeGetElement('goldenOffice').style.visibility = 'visible'; safePlay('goldenLaugh'); goldenScare = 1;
+                    goldenTimer = setTimeout(() => { if (goldenScare === 1 && !tablet && !jumpscareActive) triggerGoldenAttack(); }, 3000); 
+                } else clearGoldenState();
             }
             
             function triggerWinSequence() {
@@ -1083,15 +827,10 @@ function chica() {
                 const nightScreen = safeGetElement('nightScreen');
                 const nightTextElements = document.querySelectorAll('#nightText');
                 if (nightScreen) {
-                    nightScreen.style.display = 'flex';
-                    nightScreen.style.zIndex = '2000'; 
-                    nightTextElements[0].innerText = "5:59 AM";
+                    nightScreen.style.display = 'flex'; nightTextElements[0].innerText = "5:59 AM";
                     if (nightTextElements.length > 1) nightTextElements[1].innerText = "";
                     setTimeout(() => {
-                        nightTextElements[0].innerText = "6:00 AM";
-                        nightTextElements[0].style.color = "#fff";
-                        nightTextElements[0].style.textShadow = "0 0 20px #fff";
-                        nightTextElements.forEach(el => { el.style.transition = 'opacity 2.5s ease-in-out'; el.style.opacity = '0'; });
+                        nightTextElements[0].innerText = "6:00 AM"; nightTextElements[0].style.textShadow = "0 0 20px #fff";
                         setTimeout(() => { window.location.href = 'survived.html'; }, 3000); 
                     }, 1000); 
                 }
@@ -1100,31 +839,15 @@ function chica() {
             function unlockAudioContext() {
                 if (audioContextUnlocked) return;
                 const audio = safeGetElement('audio');
-                if (audio) {
-                    audio.play().then(() => {
-                        audioContextUnlocked = true;
-                        document.removeEventListener('click', unlockAudioContext);
-                        document.removeEventListener('touchstart', unlockAudioContext);
-                    }).catch(e => {});
-                }
+                if (audio) audio.play().then(() => { audioContextUnlocked = true; }).catch(e => {});
             }
 
             function initialStart() {
-                setupMusicBoxListeners(); 
-                selectNextMusicBoxTrack(); 
-                const audio = safeGetElement('audio');
-                if (audio) audio.volume = 0.5;
+                setupMusicBoxListeners(); selectNextMusicBoxTrack(); 
+                if (safeGetElement('audio')) safeGetElement('audio').volume = 0.5;
                 document.addEventListener('click', unlockAudioContext);
-                document.addEventListener('touchstart', unlockAudioContext);
                 setTimeout(() => {
-                    safeGetElement('nightScreen').style.display = 'none'; 
-                    updateUI();
-                    timer();
-                    power();
-                    bonnie();
-                    chica();
-                    freddy(); 
-                    tickMusicBox(); 
+                    safeGetElement('nightScreen').style.display = 'none'; updateUI(); timer(); power(); bonnie(); chica(); freddy(); tickMusicBox(); 
                     safeGetElement('warningOverlay').style.visibility = 'visible';
                     setTimeout(() => { safeGetElement('warningOverlay').style.visibility = 'hidden'; }, 6000); 
                 }, 4000); 
@@ -1141,66 +864,13 @@ function chica() {
                 safeGetElement('debugFoxy').value = fox;
             }
 
-            function debugSetTime(newTime) {
-                const hour = parseInt(newTime);
-                if (isNaN(hour) || hour < 1 || hour > 12) return;
-                timerCounter = hour === 12 ? 1 : hour + 1; 
-                safeGetElement('timerTxt').innerText = hour + ':00 AM';
-            }
-
-            function debugSetPower(newPower) {
-                const power = parseInt(newPower);
-                if (isNaN(power) || power < 0 || power > 100) return;
-                powerCounter = power;
-                updateUI();
-            }
-
-            function debugSetMusicBox(newTime) {
-                const time = parseInt(newTime);
-                if (isNaN(time) || time < 0 || time > 100) return;
-                musicBoxTime = time;
-                musicBoxGraceTime = 0;
-                musicBoxFinished = false;
-                safePause('creepyMusic');
-                safeGetElement('dangerOverlay').style.display = 'none';
-                updateMusicBoxUI();
-            }
-            
-            function debugSetAnimatronic(animatronic, position) {
-                const pos = parseInt(position);
-                if (isNaN(pos) || pos < -1 || pos > 7) return;
-                if (animatronic === "bunny") bunny = pos;
-                else if (animatronic === "chicken") chicken = pos;
-                else if (animatronic === "bear") bear = pos;
-                else if (animatronic === "fox") fox = pos;
-                if (tablet) camera(currentCam, true);
-                updateDebugUI();
-            }
-            
-            function debugTriggerJumpscare(animatronic) {
-                if (jumpscareActive) return;
-                if (animatronic === "bonnie") { bunny = 7; bonnie(); }
-                else if (animatronic === "chica") { chicken = 7; chica(); }
-                else if (animatronic === "freddy") { bear = 7; freddy(); }
-                else if (animatronic === "musicBox") handleMusicBoxJumpscare();
-                else if (animatronic === "goldenFreddy") triggerGoldenAttack();
-                isDebugMenuOpen = false;
-                safeGetElement('debugMenu').style.visibility = 'hidden';
-            }
-
-            function debugTriggerPowerDown() {
-                if (powerCounter <= 0) return; 
-                powerCounter = 1; 
-                powerDown(); 
-                isDebugMenuOpen = false;
-                safeGetElement('debugMenu').style.visibility = 'hidden';
-            }
-
-            function debugTriggerWin() {
-                triggerWinSequence(); 
-                isDebugMenuOpen = false;
-                safeGetElement('debugMenu').style.visibility = 'hidden';
-            }
+            function debugSetTime(newTime) { timerCounter = (parseInt(newTime) === 12) ? 1 : parseInt(newTime) + 1; }
+            function debugSetPower(newPower) { powerCounter = parseInt(newPower); updateUI(); }
+            function debugSetMusicBox(newTime) { musicBoxTime = parseInt(newTime); musicBoxGraceTime = 0; musicBoxFinished = false; safePause('creepyMusic'); updateMusicBoxUI(); }
+            function debugSetAnimatronic(anim, pos) { if (anim === "bunny") bunny = parseInt(pos); else if (anim === "chicken") chicken = parseInt(pos); else if (anim === "bear") bear = parseInt(pos); updateDebugUI(); }
+            function debugTriggerJumpscare(anim) { jumpscareActive = true; gameOverCleanUp(); /* triggers specific jump */ }
+            function debugTriggerWin() { triggerWinSequence(); }
+            function debugTriggerPowerDown() { powerCounter = 1; powerDown(); }
 
             window.onload = initialStart;
         </script>
