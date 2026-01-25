@@ -195,11 +195,7 @@
             #powerTxt { top: 80%; left: 3%; }
             #usageTxt { top: 87%; left: 3%; }
 
-            #maskOverlay {
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: radial-gradient(circle, transparent 30%, black 100%);
-                pointer-events: none; z-index: 105; display: none;
-            }
+         
 
             #warningOverlay {
                 position: absolute;
@@ -288,9 +284,7 @@
                 </span>
             </p>
 
-            <div id="maskBtn" onmousedown="toggleMask(true)" onmouseup="toggleMask(false)" class="ui-layer clickable" style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 300px; height: 35px; background: rgba(80, 80, 80, 0.7); border: 2px solid #555; color: white; text-align: center; line-height: 35px; z-index: 150; font-weight: bold;">MASCARA</div>
-
-<div id="maskOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 20%, black 150%); pointer-events: none; z-index: 140; display: none; border: 50px solid black; box-sizing: border-box;"></div>
+          
         </div>
         <img src='nightshift/office-open.png' id='office' class="office-layer" width='100%' height='100%' style='position: absolute; top: 0%; left: 0%;'>
         <img src='nightshift/goldenFreddy/office.png' id='goldenOffice' class="animatronic-layer" width='115%' style='position: absolute; top: 10%; left: -7%; visibility: hidden;'>
@@ -330,10 +324,7 @@
 
 
 
-            <div id="maskBtn" onclick="toggleMask()" class="ui-layer clickable" style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 400px; height: 40px; background-color: rgba(50, 50, 50, 0.5); border: 2px solid white; color: white; display: flex; justify-content: center; align-items: center; z-index: 110;">
-                MASK
-            </div>
-            
+          
             <img id="chicaInOffice" src="nightshift/chica/office.png" class="office-layer" style="position: absolute; right: 10%; bottom: 0; height: 90%; display: none; z-index: 5;">
         </div>
         
@@ -501,27 +492,9 @@
                 fox: 5
             };
 
-            let isMaskOn = false;
-let chicaInOffice = false;
+;
 
-function toggleMask() {
-    if (tablet || jumpscareActive) return;
-    
-    isMaskOn = !isMaskOn;
-    const overlay = document.getElementById('maskOverlay');
-    const btn = document.getElementById('maskBtn');
-    
-    if (isMaskOn) {
-        overlay.style.display = 'block';
-        btn.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-        
-    } else {
-        overlay.style.display = 'none';
-        btn.style.backgroundColor = 'rgba(50, 50, 50, 0.5)';
-        usageCounter--;
-    }
-    updateUI();
-}
+
 
 function chica() {
     if (jumpscareActive || powerCounter <= 0) return;
@@ -537,28 +510,10 @@ function chica() {
             enterOfficeChica();
         }
     }
-    // ...
+    
 }
 
-function enterOfficeChica() {
-    chicaInOffice = true;
-    chicken = 7; 
-    document.getElementById('chicaInOffice').style.display = 'block';
-    
-   
-    setTimeout(() => {
-        if (!isMaskOn && chicaInOffice) {
-            triggerJumpscare('chica');
-        } else if (isMaskOn && chicaInOffice) {
-           
-            setTimeout(() => {
-                chicaInOffice = false;
-                chicken = 0; 
-                document.getElementById('chicaInOffice').style.display = 'none';
-                safePlay('blip'); 
-            }, 3000);
-        }
-    }, 3000);
+
 }
 
             function updateDifficultyByHour() {
