@@ -1,0 +1,1253 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width-device-width, initial-scale=1'>
+        <title>Turnomacabro</title>
+        <style>
+            body { 
+                margin: 0; 
+                overflow: hidden; 
+                background-color: black; 
+                user-select: none; 
+                -webkit-user-select: none; 
+                -moz-user-select: none; 
+                -ms-user-select: none; 
+            }
+            .office-layer { z-index: 1; }
+            .animatronic-layer { z-index: 2; }
+            .cam-layer { z-index: 3; }
+            .static-layer { z-index: 4; }
+            .map-layer { z-index: 5; }
+            .door-indicator { z-index: 90; }
+            .ui-layer { z-index: 100; }
+            .clickable { cursor: pointer; } 
+
+            .cam-container {
+                position: absolute;
+                width: 4%;
+                height: 5%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                visibility: hidden;
+            }
+            .cam-number {
+                position: absolute;
+                color: white;
+                font-family: 'Consolas', monospace;
+                font-weight: bold;
+                font-size: 110%;
+                pointer-events: none; 
+                z-index: 101;
+                text-shadow: 1px 1px 2px black;
+                filter: blur(1px);
+                opacity: 0.7;
+            }
+
+            #monitorBtn {
+                position: absolute;
+                top: 90%;
+                left: 27%;
+                width: 44%;
+                height: 6%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                font-family: 'Consolas', monospace;
+                font-size: 25px;
+                letter-spacing: 15px;
+                text-transform: uppercase;
+                transform: scaleX(1.8);
+                filter: blur(1px);
+                transition: 0.3s;
+                user-select: none;
+            }
+            #monitorBtn:hover {
+                filter: blur(1px);
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            #nightScreen {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: black;
+                color: white;
+                display: flex; 
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-family: 'Consolas', 'Courier New', monospace;
+                font-size: 400%; 
+                text-shadow: 0 0 10px #000000;
+                text-align: center;
+                z-index: 2000; 
+            }
+            #nightText {
+                margin: 5px 0;
+                line-height: 1.2;
+            }
+            #loadingText {
+                font-size: 25%;
+                margin-top: 50px;
+                color: #555555;
+            }
+
+            #musicBoxUI {
+                position: absolute;
+                top: 76%;
+                left: 60%;
+                transform: translate(-50%, -50%);
+                visibility: hidden; 
+                z-index: 102;
+                width: 250px; 
+                height: 50px; 
+                background-color: rgba(0, 0, 0, 0.7);
+                border: 2px solid white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: 'Courier New', Courier, monospace;
+                color: white;
+                text-align: center;
+            }
+            #musicBoxText {
+                font-size: 100%; 
+                font-weight: bold;
+                padding-bottom: 2px; 
+                visibility: visible;
+                direction: ltr;
+            }
+            #musicBoxArea {
+                position: relative;
+                width: 70%; 
+                height: 30px; 
+                border: 2px solid white;
+                background-color: #333;
+                cursor: pointer;
+                overflow: hidden;
+            }
+            #musicBoxBar {
+                height: 100%;
+                background-color: #3f453f; 
+                width: 100%; 
+                transition: background-color 0.5s;
+            }
+            #musicBoxIndicator {
+                position: static;
+                width: 30%; 
+                height: 100%;
+                display: flex;
+                align-items: center; 
+                justify-content: flex-start;
+                font-weight: bold;
+                color: #aaaaaa; 
+                text-shadow: none; 
+            }
+            
+            #dangerOverlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: none; 
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 101; 
+                pointer-events: none; 
+            }
+            #dangerText {
+                filter: blur(2px);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-family: 'Consolas', 'Courier New', monospace; 
+                font-size: 300%; 
+                font-weight: 900; 
+                color: #ff0000; 
+                animation: blinker 0.3s linear infinite; 
+                letter-spacing: 5px; 
+                direction: ltr;
+                white-space: nowrap;
+            }
+
+            @keyframes blinker {
+                50% { opacity: 0; }
+            }
+            
+            .ui-layer-text {
+                font-family: "Courier New", Courier, monospace; 
+                font-weight: bold; 
+                font-size: 200%; 
+                color: white; 
+                position: absolute;
+                filter: blur(1.0px);
+                opacity: 0.85;
+            }
+            #timerTxt { top: 5%; left: 3%; }
+            #powerTxt { top: 80%; left: 3%; }
+            #usageTxt { top: 87%; left: 3%; }
+
+            #maskOverlay {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: radial-gradient(circle, transparent 30%, black 100%);
+                pointer-events: none; z-index: 105; display: none;
+            }
+
+            #warningOverlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: transparent; 
+                display: block; 
+                z-index: 200; 
+                pointer-events: none; 
+                visibility: hidden;
+            }
+            #warningText {
+                filter: blur(1px);
+                position: absolute; 
+                top: 20%; 
+                left: 45%; 
+                transform: translate(-50%, -50%); 
+                width: 100%; 
+                font-family: 'Consolas', 'Courier New', monospace; 
+                font-size: 180%; 
+                font-weight: 900; 
+                color: #ffffff; 
+                text-shadow: 0 0 5px #000000, 0 0 20px #000000; 
+                text-align: center;
+                line-height: 0.5;
+                white-space: pre-wrap; 
+            }
+            
+            #debugMenu {
+                position: absolute;
+                top: 10%;
+                right: 1%;
+                width: 250px;
+                background-color: rgba(0, 0, 0, 0.85);
+                border: 2px solid white;
+                color: white;
+                padding: 10px;
+                font-family: 'Consolas', monospace;
+                font-size: 12px;
+                z-index: 1000; 
+                visibility: hidden;
+            }
+            #debugMenu h4 { margin: 5px 0; border-bottom: 1px solid #555; padding-bottom: 3px; font-size: 14px; }
+            #debugMenu label { display: block; margin-top: 5px; }
+            #debugMenu input[type=number], #debugMenu select {
+                width: 60px;
+                background: #333;
+                border: 1px solid #555;
+                color: white;
+                margin-left: 5px;
+            }
+            #debugMenu button {
+                margin-top: 8px;
+                padding: 5px 8px;
+                background: #333;
+                border: 1px solid white;
+                color: white;
+                cursor: pointer;
+            }
+            #debugMenu button:hover { background: #555; }
+        </style>
+    </head>
+    <body oncontextmenu="return false;">
+        <div id="nightScreen">
+            <p id="nightText">12:00 AM</p>
+            <p id="nightText">6th Night</p>
+            <p id="loadingText" style="visibility: hidden;">STARTING NIGHT SHIFT...</p>
+        </div>
+        
+        <div id='warningOverlay'>
+            <p id="warningText">
+                BЄWÅRЄ ØF ßUᗪᗪY!
+                <br>
+                нє нιdєѕ. 
+                <br>
+                find him in the 5 camera
+                <br>
+                Tøuch Hís Bøx Tø Keep Him Håppy. 
+                <br>
+                ᗪO NØT Bє His LUNCH!
+                <br>
+                <span style="font-size: 50%; display: block; margin-top: 10px; color: #FFD700;">
+                    بُدّي يَخْتَبِئُ عُلْبَةُ مَوسِيقِيَّةِ
+                </span>
+            </p>
+
+            <div id="maskBtn" onmousedown="toggleMask(true)" onmouseup="toggleMask(false)" class="ui-layer clickable" style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 300px; height: 35px; background: rgba(80, 80, 80, 0.7); border: 2px solid #555; color: white; text-align: center; line-height: 35px; z-index: 150; font-weight: bold;">MASCARA</div>
+
+<div id="maskOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 20%, black 150%); pointer-events: none; z-index: 140; display: none; border: 50px solid black; box-sizing: border-box;"></div>
+        </div>
+        <img src='nightshift/office-open.png' id='office' class="office-layer" width='100%' height='100%' style='position: absolute; top: 0%; left: 0%;'>
+        <img src='nightshift/goldenFreddy/office.png' id='goldenOffice' class="animatronic-layer" width='115%' style='position: absolute; top: 10%; left: -7%; visibility: hidden;'>
+        <img src='nightshift/kitchen.png' id='camera' class="cam-layer" width='100%' height='100%' style='position: absolute; top: 0%; left: 0%; visibility: hidden;'>
+        <img src='nightshift/static.gif' id='static' class="static-layer" width='100%' height='100%' style='position: absolute; top: 0%; left: 0%; visibility: hidden; opacity: 0.3;'>
+        
+        <div id="monitorBtn" onclick="handleMonitorClick()" class="ui-layer clickable">CAMERA</div>
+        
+        <img src='nightshift/map.png' id='map' class="map-layer ui-layer" width='30%' height='70%' style='position: absolute; top: 20%; left: 70%; visibility: hidden;'>
+        
+        <img src='nightshift/leftOff.png' id='leftButtom' onclick='leftDoorToggle()' class="ui-layer clickable" width='5%' height='20%' style='position: absolute; top: 40%; left: 0.1%;'>
+        <img src='nightshift/doorOpen.png' id='leftDoor' class="door-indicator" width='1.5%' height='3.5%' style='position: absolute; top: 77.3%; left: 80.7%; visibility: hidden;'>
+        
+        <img src='nightshift/rightOff.png' id='rightButtom' onclick='rightDoorToggle()' class="ui-layer clickable" width='5%' height='20%' style='position: absolute; top: 40%; right: 1%;'>
+        <img src='nightshift/doorOpen.png' id='rightDoor' class="door-indicator" width='1.5%' height='3.5%' style='position: absolute; top: 77.3%; left: 84.6%; visibility: hidden;'>
+        
+        <div class="cam-container ui-layer" style='top: 25%; left: 78%;'>
+            <img src='nightshift/camOff.png' id='showStage' onclick='camera(0)' class="clickable" width='100%' height='100%'>
+            <span class="cam-number">0</span>
+        </div>
+    
+      
+        <div class="cam-container ui-layer" style='top: 61%; left: 94%;'>
+            <img src='nightshift/camOff.png' id='kitchen' onclick='camera(5)' class="clickable" width='100%' height='100%'>
+            <span class="cam-number">5</span>
+        </div>
+       
+      
+        <div class="cam-container ui-layer" style='top: 73%; left: 78%;'>
+            <img src='nightshift/camOff.png' id='westCorner' onclick='camera(8)' class="clickable" width='100%' height='100%'>
+            <span class="cam-number">8</span>
+        </div>
+       
+        <div class="cam-container ui-layer" style='top: 73%; left: 86%;'>
+            <img src='nightshift/camOff.png' id='eastCorner' onclick='camera(10)' class="clickable" width='100%' height='100%'>
+            <span class="cam-number">10</span>
+
+
+
+            <div id="maskBtn" onclick="toggleMask()" class="ui-layer clickable" style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 400px; height: 40px; background-color: rgba(50, 50, 50, 0.5); border: 2px solid white; color: white; display: flex; justify-content: center; align-items: center; z-index: 110;">
+                MASK
+            </div>
+            
+            <img id="chicaInOffice" src="nightshift/chica/office.png" class="office-layer" style="position: absolute; right: 10%; bottom: 0; height: 90%; display: none; z-index: 5;">
+        </div>
+        
+        <p id='timerTxt' class="ui-layer ui-layer-text">12:00 AM</p>
+        <p id='powerTxt' class="ui-layer ui-layer-text">POWER LEFT: 100%</p>
+        <p id='usageTxt' class="ui-layer ui-layer-text">USAGE: |</p>
+        
+        <div id='musicBoxUI'>
+            <div id='musicBoxText'></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 90%; height: 100%;">
+                <div id='musicBoxArea' onmousedown="windUpMusicBox(true)" onmouseup="windUpMusicBox(false)" ontouchstart="windUpMusicBox(true)" ontouchend="windUpMusicBox(false)">
+                    <div id='musicBoxBar'></div>
+                </div>
+                <div id='musicBoxIndicator'>WIND UP مع السلامة</div>
+            </div>
+        </div>
+        
+        <div id='dangerOverlay' class="ui-layer" style='display: none;'>
+            <p id="dangerText">UH! س OH! . ANGEREDح THE THING!!</p>
+        </div>
+
+        <div id='debugMenu'>
+            <h4>DEBUG MENU (I)</h4>
+            
+            <label>Hora: 
+                <input type='number' id='debugTime' value='12' min='1' max='6' onchange='debugSetTime(this.value)'> AM
+            </label>
+            
+            <label>Power: 
+                <input type='number' id='debugPower' value='100' min='0' max='100' onchange='debugSetPower(this.value)'> %
+            </label>
+            
+            <label>Music Box: 
+                <input type='number' id='debugMusicBox' value='100' min='0' max='100' onchange='debugSetMusicBox(this.value)'> %
+            </label>
+
+            <label>Bonnie Pos: 
+                <select id='debugBonniePos' onchange='debugSetAnimatronic("bunny", this.value)'>
+                    <option value='-1'>Start</option>
+                    <option value='0'>Show Stage</option>
+                    <option value='1'>Dining Area</option>
+                    <option value='2'>Backstage</option>
+                    <option value='3'>West Hall</option>
+                    <option value='4'>Supply Closet</option>
+                    <option value='5'>West Corner</option>
+                    <option value='6'>Door</option>
+                    <option value='7'>Jumpscare</option>
+                </select>
+            </label>
+
+            <label>Chica Pos: 
+                <select id='debugChicaPos' onchange='debugSetAnimatronic("chicken", this.value)'>
+                    <option value='-1'>Start</option>
+                    <option value='0'>Show Stage</option>
+                    <option value='1'>Dining Area</option>
+                    <option value='2'>Restrooms</option>
+                    <option value='3'>Kitchen</option>
+                    <option value='4'>East Hall</option>
+                    <option value='5'>East Corner</option>
+                    <option value='6'>Door</option>
+                    <option value='7'>Jumpscare</option>
+                </select>
+            </label>
+            
+            <label>Freddy Pos: 
+                <select id='debugFreddyPos' onchange='debugSetAnimatronic("bear", this.value)'>
+                    <option value='-1'>Start</option>
+                    <option value='0'>Show Stage</option>
+                    <option value='1'>Dining Area</option>
+                    <option value='2'>Restrooms</option>
+                    <option value='3'>Kitchen</option>
+                    <option value='4'>East Hall</option>
+                    <option value='5'>East Corner</option>
+                    <option value='6'>Door</option>
+                    <option value='7'>Jumpscare</option>
+                </select>
+            </label>
+            
+            <label>Foxy Stage: 
+                <input type='number' id='debugFoxy' value='0' min='0' max='5' onchange='debugSetAnimatronic("fox", this.value)'> (0-5)
+            </label>
+
+            <button onclick='debugTriggerJumpscare("bonnie")'>Jumpscare Bonnie</button>
+            <button onclick='debugTriggerJumpscare("chica")'>Jumpscare Chica</button>
+            <button onclick='debugTriggerJumpscare("freddy")'>Jumpscare Freddy</button>
+            <button onclick='debugTriggerJumpscare("musicBox")'>Jumpscare Puppet/Foxy</button>
+            <button onclick='debugTriggerJumpscare("goldenFreddy")'>Jumpscare Golden Freddy</button>
+            <button onclick='debugTriggerPowerDown()'>Power Down</button>
+            <button onclick='debugTriggerWin()'>6 AM (Win)</button>
+        </div>
+
+        <audio src='nightshift/audios/blip3.wav' id='blip'></audio>
+        <audio src='nightshift/audios/CMPTR_Low_Tech_Stat.wav' id='ambienceCamera' loop></audio>
+        <audio src='nightshift/audios/Laugh_Giggle_Girl_1.wav' id='goldenLaugh'></audio>
+        <audio src='nightshift/audios/Laugh_Giggle_Girl_1d.wav' id='laugh1'></audio>
+        <audio src='nightshift/audios/Laugh_Giggle_Girl_2d.wav' id='laugh2'></audio>
+        <audio src='nightshift/audios/Laugh_Giggle_Girl_8d.wav' id='laugh3'></audio>
+        <audio src='nightshift/audios/music box.wav' id='musicBox1'></audio>
+        <audio src='nightshift/audios/musicbox2.mp3' id='musicBox2'></audio>
+        <audio src='nightshift/audios/musicbox3.mp3' id='musicBox3' volume='1.0'></audio> 
+        <audio src='nightshift/audios/oui.wav' id='oui'></audio>
+        <audio src='nightshift/audios/OVEN-DRA_1_GEN-HDF18119.wav' id='kitchen1'></audio>
+        <audio src='nightshift/audios/OVEN-DRA_2_GEN-HDF18120.wav' id='kitchen2'></audio>
+        <audio src='nightshift/audios/powerdown.wav' id='powerDown'></audio>
+        <audio src='nightshift/audios/run.wav' id='run'></audio>
+        <audio src='nightshift/audios/SFXBible_12478.wav' id='door'></audio>
+        <audio src='nightshift/audios/STEREO_CASSETTE__90097701.wav' id='tabletOn'></audio>
+        <audio src='nightshift/audios/STEREO_CASSETTE__90097704.wav' id='tabletOff'></audio>
+        <audio src='nightshift/audios/walk1.wav' id='walk1'></audio>
+        <audio src='nightshift/audios/walk2.wav' id='walk2'></audio>
+        <audio src='nightshift/audios/walk3.wav' id='walk3'></audio>
+        <audio src='nightshift/audios/walk4.wav' id='walk4'></audio>
+        <audio src='nightshift/audios/walk5.wav' id='walk5'></audio>
+        <audio src='nightshift/audios/XSCREAM.wav' id='jumpscare'></audio>
+        <audio src='nightshift/audios/XSCREAM2.wav' id='goldenJumpscare'></audio>
+        <audio src='nightshift/audios/creepy_loop.wav' id='creepyMusic' loop></audio>
+        <audio src='nightshift/audios/windup.ogg' id='windupEffect'></audio>
+        <audio src='nightshift/audios/special.ogg' id='specialJumpscare'></audio>
+        <audio src='nightshift/audios/uhoh.mp3' id='dangerWarning'></audio>
+        <audio id="audio" src="03. Pizza Dinner.mp3" loop></audio>
+        
+        <script>
+            let leftDoor = false;
+            let rightDoor = false;
+            let tablet = false;
+            let timerCounter = 12;
+            let powerCounter = 100;
+            let usageCounter = 1; 
+            let bunny = -1;
+            let chicken = -1;
+            let bear = -1;
+            let bearOutage = 0; 
+            let fox = 0; 
+            let goldenRandom = 0;
+            let goldenScare = 0;
+            let currentCam = 0;
+            let musicBoxTime = 100; 
+            let musicBoxDrainRate = 0.3; 
+            let musicBoxGraceTime = 0; 
+            let isWinding = false;
+            let musicBoxJumpscareInProgress = false;
+            let musicBoxFinished = false; 
+            let activeMusicBoxID = 'musicBox1'; 
+            let windupInterval = null; 
+            let audioContextUnlocked = false; 
+            let jumpscareActive = false;
+            let goldenTimer = null; 
+            const GIF_STOP_DELAY = 1550;
+            const BLACK_SCREEN_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            const JUMPSCARE_TOTAL_DURATION_MS = 1550; 
+            const JUMPSCARE_DURATIONS = {
+                BONNIE: 1000,         
+                CHICA: 1800,          
+                FREDDY: 1000,         
+                FOXY_PUPPET: 1400,    
+                GOLDEN_FREDDY: 2900,  
+                POWER_OUTAGE: 2000    
+            };
+            let isDebugMenuOpen = false;
+
+            let aiLevels = {
+                bunny: 10,
+                chicken: 8,
+                bear: 5,
+                fox: 5
+            };
+
+            let isMaskOn = false;
+let chicaInOffice = false;
+
+function toggleMask() {
+    if (tablet || jumpscareActive) return;
+    
+    isMaskOn = !isMaskOn;
+    const overlay = document.getElementById('maskOverlay');
+    const btn = document.getElementById('maskBtn');
+    
+    if (isMaskOn) {
+        overlay.style.display = 'block';
+        btn.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+        
+    } else {
+        overlay.style.display = 'none';
+        btn.style.backgroundColor = 'rgba(50, 50, 50, 0.5)';
+        usageCounter--;
+    }
+    updateUI();
+}
+
+function chica() {
+    if (jumpscareActive || powerCounter <= 0) return;
+
+    
+
+    if (chicken === 6) { 
+        if (rightDoor) {
+            chicken = 2; 
+            rightDoor = false;
+            safePlay('doorClose');
+        } else { 
+            enterOfficeChica();
+        }
+    }
+    // ...
+}
+
+function enterOfficeChica() {
+    chicaInOffice = true;
+    chicken = 7; 
+    document.getElementById('chicaInOffice').style.display = 'block';
+    
+   
+    setTimeout(() => {
+        if (!isMaskOn && chicaInOffice) {
+            triggerJumpscare('chica');
+        } else if (isMaskOn && chicaInOffice) {
+           
+            setTimeout(() => {
+                chicaInOffice = false;
+                chicken = 0; 
+                document.getElementById('chicaInOffice').style.display = 'none';
+                safePlay('blip'); 
+            }, 3000);
+        }
+    }, 3000);
+}
+
+            function updateDifficultyByHour() {
+                if (timerCounter === 2) {
+                    aiLevels.bunny += 1;
+                } else if (timerCounter === 3) {
+                    aiLevels.bunny += 1;
+                    aiLevels.chicken += 1;
+                    aiLevels.fox += 1;
+                } else if (timerCounter === 4) {
+                    aiLevels.bunny += 1;
+                    aiLevels.chicken += 1;
+                    aiLevels.bear += 1;
+                } else if (timerCounter === 5 || timerCounter === 6) {
+                    aiLevels.bunny += 2;
+                    aiLevels.chicken += 2;
+                    aiLevels.fox += 1;
+                }
+            }
+
+            document.addEventListener("keydown", function(event) {
+                if (event.code === "KeyI") {
+                    if (jumpscareActive) return;
+                    isDebugMenuOpen = !isDebugMenuOpen;
+                    const debugMenu = safeGetElement('debugMenu');
+                    if (debugMenu) debugMenu.style.visibility = isDebugMenuOpen ? 'visible' : 'hidden';
+                    updateDebugUI();
+                }
+                if (powerCounter <= 0 || bearOutage === 1 || jumpscareActive) return;
+                if (event.code === "Space") {
+                    event.preventDefault();
+                    handleMonitorClick();
+                    const visible = tablet ? 'visible' : 'hidden';
+                    document.getElementById('camera').style.visibility = visible;
+                    document.getElementById('static').style.visibility = visible;
+                    document.getElementById('map').style.visibility = visible;
+                    document.querySelectorAll('.cam-container').forEach(el => el.style.visibility = visible);
+                }
+                if (event.code === "KeyA") leftDoorToggle();
+                if (event.code === "KeyD") rightDoorToggle();
+            });
+
+            function randomGameOverDefault() {
+                const chance = Math.random() * 100;
+                if (chance < 70) window.location.href = 'gameover2.html'; 
+                else window.location.href = 'game over.html'; 
+            }
+
+            function randomGameOverFoxy() {
+                const chance = Math.random() * 100;
+                if (chance < 70) window.location.href = 'game over_puppet.html'; 
+                else window.location.href = 'game over.html'; 
+            }
+
+            function safeGetElement(id) {
+                const el = document.getElementById(id);
+                return el || null;
+            }
+
+            function safePlay(id, resetTime = true) {
+                const el = safeGetElement(id);
+                if (el && typeof el.play === 'function') {
+                    if (resetTime) el.currentTime = 0; 
+                    el.play().catch(e => {});
+                }
+            }
+
+            function safePause(id) {
+                const el = safeGetElement(id);
+                if (el && typeof el.pause === 'function') el.pause();
+            }
+            
+            function stopAllMusicBoxTracks() {
+                safePause('musicBox1');
+                safePause('musicBox2');
+                safePause('musicBox3');
+            }
+
+            function playActiveMusicBoxTrack() {
+                if (activeMusicBoxID) safePlay(activeMusicBoxID, false); 
+            }
+            
+            function selectNextMusicBoxTrack() {
+                const weightedTracks = [
+                    { id: 'musicBox1', weight: 0 }, 
+                    { id: 'musicBox2', weight: 40 }, 
+                    { id: 'musicBox3', weight: 40 }
+                ];
+                const totalWeight = weightedTracks.reduce((sum, track) => sum + track.weight, 0);
+                let random = Math.random() * totalWeight;
+                if (totalWeight === 0) {
+                     activeMusicBoxID = Math.random() < 0.5 ? 'musicBox2' : 'musicBox3';
+                     return;
+                }
+                for (const track of weightedTracks) {
+                    if (random < track.weight) {
+                        activeMusicBoxID = track.id;
+                        return;
+                    }
+                    random -= track.weight;
+                }
+                activeMusicBoxID = 'musicBox2'; 
+            }
+
+            function setupMusicBoxListeners() {
+                const trackIDs = ['musicBox1', 'musicBox2', 'musicBox3'];
+                trackIDs.forEach(id => {
+                    const track = safeGetElement(id);
+                    if (track) {
+                        track.loop = false; 
+                        track.onended = () => {
+                            if (tablet && currentCam === 5 && musicBoxTime > 0) {
+                                stopAllMusicBoxTracks(); 
+                                selectNextMusicBoxTrack();
+                                playActiveMusicBoxTrack();
+                            }
+                        };
+                    }
+                });
+            }
+
+            function gameOverCleanUp() {
+                const uiElements = ['leftButtom', 'rightButtom', 'monitorBtn', 'timerTxt', 'powerTxt', 'usageTxt', 'goldenOffice', 'camera', 'static', 'map', 'leftDoor', 'rightDoor', 'musicBoxUI', 'dangerOverlay', 'warningOverlay', 'debugMenu']; 
+                uiElements.forEach(id => {
+                    const el = safeGetElement(id);
+                    if (el) el.style.visibility = 'hidden';
+                });
+                document.querySelectorAll('.cam-container').forEach(el => el.style.visibility = 'hidden');
+                tablet = false;
+                safePause('ambienceCamera');
+                stopAllMusicBoxTracks(); 
+                safePause('creepyMusic');
+                if (windupInterval) clearInterval(windupInterval);
+                if (goldenTimer) clearTimeout(goldenTimer);
+                safePause('audio');
+            }
+
+            function updateOfficeImage() {
+                const officeImg = safeGetElement('office');
+                let state = 'open';
+            
+                if (leftDoor && rightDoor) state = 'closed';
+                else if (leftDoor) state = 'left-door';
+                else if (rightDoor) state = 'right-door';
+            
+                let finalImg = `nightshift/office-${state}.png`;
+            
+                if (bunny === 6 && !leftDoor && !tablet) {
+                    finalImg = 'nightshift/bonnie/office-light-left.png';
+                } else if ((chicken === 6 || bear === 6) && !rightDoor && !tablet) {
+                    if (chicken === 6) finalImg = 'nightshift/chica/office-light-right.png';
+                    else finalImg = 'nightshift/freddy/office-light-right.png';
+                }
+            
+                officeImg.src = finalImg;
+            }
+
+            function usage(){
+                const usageTxt = safeGetElement('usageTxt');
+                if (!usageTxt) return;
+                let usageBars = '|';
+                if (usageCounter === 2) usageBars = '||';
+                else if (usageCounter === 3) usageBars = '|||';
+                else if (usageCounter >= 4) usageBars = '||||';
+                usageTxt.innerText = `USAGE: ${usageBars}`;
+            }
+            
+            function updateMusicBoxUI() {
+                const bar = safeGetElement('musicBoxBar');
+                const indicator = safeGetElement('musicBoxIndicator');
+                const musicBoxText = safeGetElement('musicBoxText');
+                if (!bar || !indicator || !musicBoxText) return;
+                const percent = Math.max(0, musicBoxTime);
+                bar.style.width = percent + '%';
+                const inDangerGrace = musicBoxGraceTime > 0;
+                if (percent > 50) bar.style.backgroundColor = '#999999'; 
+                else if (percent > 20) bar.style.backgroundColor = '#666666'; 
+                else bar.style.backgroundColor = '#ff0000'; 
+                if (inDangerGrace) {
+                    musicBoxText.style.visibility = 'hidden'; 
+                    indicator.innerText = ''; 
+                    safeGetElement('musicBoxArea').style.borderColor = 'red';
+                    safeGetElement('musicBoxArea').style.backgroundColor = 'darkred';
+                } else {
+                    musicBoxText.style.visibility = 'visible'; 
+                    safeGetElement('musicBoxArea').style.borderColor = 'white';
+                    safeGetElement('musicBoxArea').style.backgroundColor = '#333';
+                    if (percent <= 0) indicator.innerText = 'EMPTY! DANGER!';
+                    else indicator.innerText = 'WIND UP مع السلامة';
+                }
+            }
+
+            function tickMusicBox() {
+                if (musicBoxJumpscareInProgress || powerCounter <= 0 || bearOutage === 1 || jumpscareActive) return;
+                if (musicBoxGraceTime > 0) {
+                    musicBoxGraceTime = Math.max(0, musicBoxGraceTime - 0.05); 
+                    if (musicBoxGraceTime <= 0) {
+                        stopAllMusicBoxTracks();
+                        handleMusicBoxJumpscare();
+                        return; 
+                    }
+                    if (musicBoxTime > 0) {
+                        musicBoxGraceTime = 0; 
+                        fox = 0; 
+                        musicBoxFinished = false; 
+                        safePause('creepyMusic'); 
+                    }
+                } else if (musicBoxTime <= 0) {
+                    if (!musicBoxFinished) { 
+                        fox = 1; 
+                        musicBoxFinished = true; 
+                        let randomDelay = Math.floor(Math.random() * 7001) + 4000;
+                        musicBoxGraceTime = randomDelay / 1000; 
+                        safePlay('creepyMusic', false); 
+                        safePlay('dangerWarning'); 
+                    }
+                } else {
+                    if (!isWinding) musicBoxTime = Math.max(0, musicBoxTime - musicBoxDrainRate); 
+                    fox = 0; 
+                }
+                if (musicBoxTime > 0 && tablet && currentCam === 5) { 
+                    const activeTrack = safeGetElement(activeMusicBoxID);
+                    if (activeTrack && activeTrack.paused) playActiveMusicBoxTrack();
+                } else {
+                    stopAllMusicBoxTracks();
+                }
+                safeGetElement('dangerOverlay').style.display = musicBoxGraceTime > 0 ? 'block' : 'none';
+                updateMusicBoxUI();
+                setTimeout(tickMusicBox, 50); 
+            }
+
+            function windUpMusicBox(isHolding) {
+                const stopWinding = musicBoxJumpscareInProgress || powerCounter <= 0 || bearOutage === 1 || !tablet || currentCam !== 5 || musicBoxFinished || jumpscareActive;
+                if (stopWinding) {
+                    isWinding = false;
+                    if (windupInterval) clearInterval(windupInterval);
+                    windupInterval = null;
+                    return;
+                }
+                isWinding = isHolding;
+                if (isHolding) {
+                    if (windupInterval === null) {
+                        safePlay('windupEffect'); 
+                        windupInterval = setInterval(() => {
+                            if (isWinding) { 
+                                safePlay('windupEffect'); 
+                                musicBoxTime = Math.min(100, musicBoxTime + 3); 
+                                updateMusicBoxUI();
+                            } else {
+                                clearInterval(windupInterval);
+                                windupInterval = null;
+                            }
+                        }, 200); 
+                    }
+                } else {
+                    if (windupInterval) clearInterval(windupInterval);
+                    windupInterval = null;
+                }
+                updateMusicBoxUI(); 
+            }
+            
+            function handleMusicBoxJumpscare() {
+                if (musicBoxJumpscareInProgress || jumpscareActive) return;
+                musicBoxJumpscareInProgress = true;
+                jumpscareActive = true;
+                stopAllMusicBoxTracks();
+                safePause('creepyMusic');
+                gameOverCleanUp();
+                safeGetElement('office').src = 'nightshift/foxy/jumpscare.gif'; 
+                safePlay('specialJumpscare'); 
+                setTimeout(function() {
+                    safeGetElement('office').src = BLACK_SCREEN_SRC;
+                    document.body.style.backgroundColor = 'black';
+                }, JUMPSCARE_DURATIONS.FOXY_PUPPET); 
+                setTimeout(function(){ randomGameOverFoxy(); }, JUMPSCARE_TOTAL_DURATION_MS); 
+            }
+
+            function updateUI() {
+                updateOfficeImage(); 
+                usage();
+                if (!tablet) {
+                    safeGetElement('musicBoxUI').style.visibility = 'hidden';
+                    stopAllMusicBoxTracks(); 
+                }
+                const doorsVisible = !tablet && bearOutage === 0 && !jumpscareActive;
+                safeGetElement('leftButtom').src = leftDoor ? 'nightshift/leftOn.png' : 'nightshift/leftOff.png';
+                safeGetElement('leftButtom').style.visibility = doorsVisible ? 'visible' : 'hidden';
+                safeGetElement('rightButtom').src = rightDoor ? 'nightshift/rightOn.png' : 'nightshift/rightOff.png';
+                safeGetElement('rightButtom').style.visibility = doorsVisible ? 'visible' : 'hidden';
+                safeGetElement('monitorBtn').style.visibility = (bearOutage === 0 && !jumpscareActive) ? 'visible' : 'hidden';
+                safeGetElement('leftDoor').style.visibility = (tablet && leftDoor) ? 'visible' : 'hidden';
+                safeGetElement('rightDoor').style.visibility = (tablet && rightDoor) ? 'visible' : 'hidden';
+                safeGetElement('powerTxt').innerText = `POWER LEFT: ${powerCounter}%`;
+                if (isDebugMenuOpen) updateDebugUI();
+            }
+
+            function leftDoorToggle(){
+                if (powerCounter <= 0 || bearOutage === 1 || tablet || jumpscareActive) return;
+                leftDoor = !leftDoor;
+                usageCounter += leftDoor ? 1 : -1;
+                safePlay('door');
+                updateUI(); 
+            }
+
+            function rightDoorToggle(){
+                if (powerCounter <= 0 || bearOutage === 1 || tablet || jumpscareActive) return;
+                rightDoor = !rightDoor;
+                usageCounter += rightDoor ? 1 : -1;
+                safePlay('door');
+                updateUI(); 
+            }
+            
+            function handleMonitorClick(){
+                if(powerCounter <= 0 || bearOutage === 1 || jumpscareActive) return;
+                tablet = !tablet;
+                const visible = tablet ? 'visible' : 'hidden';
+                safeGetElement('camera').style.visibility = visible;
+                safeGetElement('static').style.visibility = visible;
+                safeGetElement('map').style.visibility = visible;
+                document.querySelectorAll('.cam-container').forEach(el => el.style.visibility = visible);
+                if (!tablet) safeGetElement('musicBoxUI').style.visibility = 'hidden';
+                stopAllMusicBoxTracks();
+                if (musicBoxGraceTime <= 0) safePause('creepyMusic');
+                if (!tablet) windUpMusicBox(false);
+                if (tablet) {
+                    safePlay('tabletOn');
+                    safePlay('ambienceCamera', false);
+                    usageCounter++;
+                    camera(currentCam, true); 
+                    clearGoldenState(); 
+                } else {
+                    safePause('ambienceCamera');
+                    safePlay('tabletOff');
+                    usageCounter--;
+                    windUpMusicBox(false); 
+                    goldenAI(); 
+                }
+                updateUI(); 
+            }
+            function camera(camCounter, noBlip = false) {
+                if (!tablet || jumpscareActive) return;
+                currentCam = camCounter;
+                if (!noBlip) safePlay('blip');
+                stopAllMusicBoxTracks();
+                
+                if (camCounter === 5) {
+                    safeGetElement('musicBoxUI').style.visibility = 'visible';
+                    if (musicBoxTime > 0) playActiveMusicBoxTrack();
+                } else {
+                    safeGetElement('musicBoxUI').style.visibility = 'hidden';
+                    windUpMusicBox(false);
+                }
+            
+                let basePath = 'nightshift/';
+                let imgName = '';
+            
+                if (camCounter === 0) {
+                    if (bunny >= 0) imgName = 'bonnie/showStage.png';
+                    else if (chicken >= 0) imgName = 'chica/showStageB.png';
+                    else if (bear >= 0) imgName = 'freddy/showStage.png';
+                    else imgName = 'showStage.png';
+                } 
+                else if (camCounter === 8) {
+                    imgName = (bunny === 5) ? 'bonnie/westCorner.png' : 'westCorner.png';
+                } 
+                else if (camCounter === 10) {
+                    if (chicken === 5) imgName = 'chica/eastCorner.png';
+                    else if (bear === 5) imgName = 'freddy/eastCorner.png';
+                    else imgName = 'eastCorner.png';
+                } 
+                else if (camCounter === 5) {
+                    if (chicken === 3) imgName = 'chica/kitchen.png';
+                    else if (bear === 3) imgName = 'freddy/kitchen.png';
+                    else imgName = 'cam6.png';
+                } else {
+                    imgName = 'cam' + camCounter + '.png'; 
+                }
+            
+                safeGetElement('camera').src = basePath + imgName;
+            }
+            function staticEffect(){
+                const st = safeGetElement('static');
+                if (!st) return;
+                st.style.opacity = 1;
+                setTimeout(function(){ if (st) st.style.opacity = 0.3; }, 500);
+            }
+
+            function timer(){
+                const timerTxt = safeGetElement('timerTxt');
+                if (!timerTxt) return;
+                timerTxt.innerText = timerCounter + (timerCounter === 12 ? ':00 AM' : ' AM');
+                updateDifficultyByHour();
+                timerCounter++;
+                if (timerCounter > 12) timerCounter = 1;
+                if (timerCounter === 7) { triggerWinSequence(); return; } 
+                const delay = (timerCounter === 1 || timerCounter === 12) ? 25000 : 24000;
+                setTimeout(timer, delay);
+                if (isDebugMenuOpen) safeGetElement('debugTime').value = timerCounter === 1 ? 12 : timerCounter - 1;
+            }
+
+            function power(){
+                if (powerCounter <= 0) { powerCounter = 0; powerDown(); return; }
+                powerCounter--;
+                let drainSpeed = usageCounter === 2 ? 1800 : usageCounter === 3 ? 1300 : usageCounter >= 4 ? 950 : 3500;
+                setTimeout(power, drainSpeed);
+                safeGetElement('powerTxt').innerText = `POWER LEFT: ${powerCounter}%`;
+                if (isDebugMenuOpen) safeGetElement('debugPower').value = powerCounter;
+            }
+
+            function powerDown(){
+                if (bearOutage === 0) {
+                    bearOutage = 1;
+                    if(tablet) handleMonitorClick(); 
+                    gameOverCleanUp(); 
+                    safeGetElement('office').src = 'nightshift/434.png'; 
+                    safePlay('powerDown');
+                    setTimeout(function(){ safePlay('musicBox1'); }, 5000); 
+                    setTimeout(function(){
+                          stopAllMusicBoxTracks();
+                          gameOverCleanUp();
+                          jumpscareActive = true;
+                          safeGetElement('office').src = 'nightshift/freddy/jumpscare.gif';
+                          safePlay('jumpscare');
+                          setTimeout(function() {
+                                safeGetElement('office').src = BLACK_SCREEN_SRC;
+                                document.body.style.backgroundColor = 'black';
+                          }, JUMPSCARE_DURATIONS.POWER_OUTAGE); 
+                          setTimeout(function(){ window.location.href = 'gameoverpowerdown.html'; }, JUMPSCARE_TOTAL_DURATION_MS); 
+                    }, Math.floor(Math.random() * 5001) + 10000); 
+                } 
+            }
+
+            function bonnie(){
+                if (powerCounter <= 0 || bearOutage === 1 || jumpscareActive) return;
+                if (Math.floor(Math.random() * 20) + 1 <= aiLevels.bunny) {
+                    if (bunny === -1) bunny = 0;
+                    else if (bunny === 0) bunny = 1;
+                    else if (bunny === 1) bunny = Math.floor(Math.random() * 2) + 2;
+                    else if (bunny === 2) bunny = 1;
+                    else if (bunny === 3) bunny = Math.floor(Math.random() * 2) + 4;
+                    else if (bunny === 4) bunny = 3;
+                    else if (bunny === 5) bunny = 6;
+                    if (bunny === 6){
+                        if (leftDoor === true) bunny = (bear <= 0) ? -1 : 0; 
+                        else bunny = 7;
+                    }
+                    if (bunny === 7){
+                        if (leftDoor === true) bunny = (bear <= 0) ? -1 : 0;
+                        else {
+                            jumpscareActive = true;
+                            gameOverCleanUp(); 
+                            safeGetElement('office').src = 'nightshift/bonnie/jumpscare.gif';
+                            safePlay('jumpscare');
+                            setTimeout(function() { safeGetElement('office').src = BLACK_SCREEN_SRC; document.body.style.backgroundColor = 'black'; }, JUMPSCARE_DURATIONS.BONNIE); 
+                            setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
+                            return;
+                        }
+                    }
+                    if (bunny < 6) {
+                        safePlay('walk' + (Math.floor(Math.random() * 5) + 1));
+                        if (tablet) { staticEffect(); if ([0, 1, 2, 6, 7, 8].includes(currentCam)) camera(currentCam, true); }
+                    }
+                }
+                if (isDebugMenuOpen) updateDebugUI();
+                setTimeout(bonnie, 4970);
+            }
+
+            function chica(){
+                if (powerCounter <= 0 || bearOutage === 1 || jumpscareActive) return;
+                if (Math.floor(Math.random() * 20) + 1 <= aiLevels.chicken) {
+                    if (chicken === -1) chicken = 0;
+                    else if (chicken === 0) chicken = 1;
+                    else if (chicken === 1) chicken = Math.floor(Math.random() * 3) + 2;
+                    else if (chicken === 2) chicken = 1;
+                    else if (chicken === 3) chicken = 1;
+                    else if (chicken === 4) chicken = 5;
+                    else if (chicken === 5) chicken = 6;
+                    if (chicken === 6){
+                        if (rightDoor === true) chicken = (bear <= 0) ? -1 : 0;
+                        else chicken = 7;
+                    }
+                    if (chicken === 7){
+                        if (rightDoor === true) chicken = (bear <= 0) ? -1 : 0;
+                        else {
+                            jumpscareActive = true;
+                            gameOverCleanUp(); 
+                            safeGetElement('office').src = 'nightshift/chica/jumpscare.gif';
+                            safePlay('oui');
+                            setTimeout(function() { safeGetElement('office').src = BLACK_SCREEN_SRC; document.body.style.backgroundColor = 'black'; }, JUMPSCARE_DURATIONS.CHICA); 
+                            setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
+                            return;
+                        }
+                    }
+                    if (chicken < 6 && tablet) { staticEffect(); if ([0, 1, 4, 5, 9, 10].includes(currentCam)) camera(currentCam, true); }
+                }
+                if (isDebugMenuOpen) updateDebugUI();
+                setTimeout(chica, 4980);
+            }
+
+            function freddy(){
+                if (powerCounter <= 0 || bearOutage === 1 || jumpscareActive) return;
+                if (Math.floor(Math.random() * 20) + 1 <= aiLevels.bear) {
+                    if (tablet && currentCam === bear) { setTimeout(freddy, 3020); return; }
+                    if (bear === -1) bear = 0;
+                    else if (bear === 0) bear = 1;
+                    else if (bear === 1) bear = Math.floor(Math.random() * 3) + 2;
+                    else if (bear === 2) bear = 1;
+                    else if (bear === 3) bear = 1;
+                    else if (bear === 4) bear = 5;
+                    else if (bear === 5) bear = 6;
+                    if (bear === 6){
+                        if (rightDoor === true) bear = -1;
+                        else bear = 7;
+                    }
+                    if (bear === 7){
+                        if (rightDoor === true) bear = -1;
+                        else {
+                            jumpscareActive = true;
+                            gameOverCleanUp(); 
+                            safeGetElement('office').src = 'nightshift/freddy/jumpscare.gif';
+                            safePlay('jumpscare');
+                            setTimeout(function() { safeGetElement('office').src = BLACK_SCREEN_SRC; document.body.style.backgroundColor = 'black'; }, JUMPSCARE_DURATIONS.FREDDY); 
+                            setTimeout(function(){randomGameOverDefault();}, JUMPSCARE_TOTAL_DURATION_MS); 
+                            return;
+                        }
+                    }
+                    if (bear < 6 && tablet) { staticEffect(); if ([0, 1, 4, 5, 9, 10].includes(currentCam)) camera(currentCam, true); }
+                }
+                if (isDebugMenuOpen) updateDebugUI();
+                setTimeout(freddy, 3020);
+            }
+
+            function triggerGoldenAttack() {
+                if (jumpscareActive) return;
+                jumpscareActive = true;
+                gameOverCleanUp();
+                safeGetElement('office').src = "nightshift/goldenFreddy/jumpscare.png";
+                safePlay('goldenJumpscare');
+                setTimeout(function() { safeGetElement('office').src = BLACK_SCREEN_SRC; document.body.style.backgroundColor = 'black'; }, JUMPSCARE_DURATIONS.GOLDEN_FREDDY); 
+                setTimeout(function(){ window.location.href = 'gameovergolden.html'; }, JUMPSCARE_TOTAL_DURATION_MS); 
+                clearGoldenState(); 
+            }
+
+            function clearGoldenState() {
+                if (goldenTimer) clearTimeout(goldenTimer);
+                goldenTimer = null;
+                safeGetElement('goldenOffice').style.visibility = 'hidden';
+                goldenScare = 0;
+                goldenRandom = 0;
+            }
+
+            function goldenAI() {
+                if (powerCounter <= 0 || bearOutage === 1 || tablet || jumpscareActive || goldenScare === 1) return;
+                goldenRandom = Math.floor(Math.random() * 5); 
+                if (goldenRandom === 4) {
+                    safeGetElement('goldenOffice').style.visibility = 'visible';
+                    safePlay('goldenLaugh');
+                    goldenScare = 1;
+                    goldenTimer = setTimeout(function() { if (goldenScare === 1 && !tablet && !jumpscareActive) triggerGoldenAttack(); }, 3000); 
+                } else {
+                    clearGoldenState();
+                }
+            }
+            
+            function triggerWinSequence() {
+                gameOverCleanUp();
+                const nightScreen = safeGetElement('nightScreen');
+                const nightTextElements = document.querySelectorAll('#nightText');
+                if (nightScreen) {
+                    nightScreen.style.display = 'flex';
+                    nightScreen.style.zIndex = '2000'; 
+                    nightTextElements[0].innerText = "5:59 AM";
+                    if (nightTextElements.length > 1) nightTextElements[1].innerText = "";
+                    setTimeout(() => {
+                        nightTextElements[0].innerText = "6:00 AM";
+                        nightTextElements[0].style.color = "#fff";
+                        nightTextElements[0].style.textShadow = "0 0 20px #fff";
+                        nightTextElements.forEach(el => { el.style.transition = 'opacity 2.5s ease-in-out'; el.style.opacity = '0'; });
+                        setTimeout(() => { window.location.href = 'survived.html'; }, 3000); 
+                    }, 1000); 
+                }
+            }
+
+            function unlockAudioContext() {
+                if (audioContextUnlocked) return;
+                const audio = safeGetElement('audio');
+                if (audio) {
+                    audio.play().then(() => {
+                        audioContextUnlocked = true;
+                        document.removeEventListener('click', unlockAudioContext);
+                        document.removeEventListener('touchstart', unlockAudioContext);
+                    }).catch(e => {});
+                }
+            }
+
+            function initialStart() {
+                setupMusicBoxListeners(); 
+                selectNextMusicBoxTrack(); 
+                const audio = safeGetElement('audio');
+                if (audio) audio.volume = 0.5;
+                document.addEventListener('click', unlockAudioContext);
+                document.addEventListener('touchstart', unlockAudioContext);
+                setTimeout(() => {
+                    safeGetElement('nightScreen').style.display = 'none'; 
+                    updateUI();
+                    timer();
+                    power();
+                    bonnie();
+                    chica();
+                    freddy(); 
+                    tickMusicBox(); 
+                    safeGetElement('warningOverlay').style.visibility = 'visible';
+                    setTimeout(() => { safeGetElement('warningOverlay').style.visibility = 'hidden'; }, 6000); 
+                }, 4000); 
+            }
+            
+            function updateDebugUI() {
+                if (!isDebugMenuOpen) return;
+                safeGetElement('debugTime').value = timerCounter === 1 ? 12 : timerCounter - 1;
+                safeGetElement('debugPower').value = powerCounter;
+                safeGetElement('debugMusicBox').value = Math.floor(musicBoxTime);
+                safeGetElement('debugBonniePos').value = bunny;
+                safeGetElement('debugChicaPos').value = chicken;
+                safeGetElement('debugFreddyPos').value = bear;
+                safeGetElement('debugFoxy').value = fox;
+            }
+
+            function debugSetTime(newTime) {
+                const hour = parseInt(newTime);
+                if (isNaN(hour) || hour < 1 || hour > 12) return;
+                timerCounter = hour === 12 ? 1 : hour + 1; 
+                safeGetElement('timerTxt').innerText = hour + ':00 AM';
+            }
+
+            function debugSetPower(newPower) {
+                const power = parseInt(newPower);
+                if (isNaN(power) || power < 0 || power > 100) return;
+                powerCounter = power;
+                updateUI();
+            }
+
+            function debugSetMusicBox(newTime) {
+                const time = parseInt(newTime);
+                if (isNaN(time) || time < 0 || time > 100) return;
+                musicBoxTime = time;
+                musicBoxGraceTime = 0;
+                musicBoxFinished = false;
+                safePause('creepyMusic');
+                safeGetElement('dangerOverlay').style.display = 'none';
+                updateMusicBoxUI();
+            }
+            
+            function debugSetAnimatronic(animatronic, position) {
+                const pos = parseInt(position);
+                if (isNaN(pos) || pos < -1 || pos > 7) return;
+                if (animatronic === "bunny") bunny = pos;
+                else if (animatronic === "chicken") chicken = pos;
+                else if (animatronic === "bear") bear = pos;
+                else if (animatronic === "fox") fox = pos;
+                if (tablet) camera(currentCam, true);
+                updateDebugUI();
+            }
+            
+            function debugTriggerJumpscare(animatronic) {
+                if (jumpscareActive) return;
+                if (animatronic === "bonnie") { bunny = 7; bonnie(); }
+                else if (animatronic === "chica") { chicken = 7; chica(); }
+                else if (animatronic === "freddy") { bear = 7; freddy(); }
+                else if (animatronic === "musicBox") handleMusicBoxJumpscare();
+                else if (animatronic === "goldenFreddy") triggerGoldenAttack();
+                isDebugMenuOpen = false;
+                safeGetElement('debugMenu').style.visibility = 'hidden';
+            }
+
+            function debugTriggerPowerDown() {
+                if (powerCounter <= 0) return; 
+                powerCounter = 1; 
+                powerDown(); 
+                isDebugMenuOpen = false;
+                safeGetElement('debugMenu').style.visibility = 'hidden';
+            }
+
+            function debugTriggerWin() {
+                triggerWinSequence(); 
+                isDebugMenuOpen = false;
+                safeGetElement('debugMenu').style.visibility = 'hidden';
+            }
+
+            window.onload = initialStart;
+        </script>
+    </body>
+</html>

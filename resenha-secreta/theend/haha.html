@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rsenhafinal - slipknot</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: black; font-family: 'Consolas', monospace; }
+        #camera-container { position: relative; width: 100vw; height: 100vh; overflow: hidden; background-color: black; }
+        
+        #office {
+            position: absolute;
+            top: 0; left: 0; height: 100%; 
+            width: 120vw; 
+            background-image: url('office.png');
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.1s ease-out;
+            display: block;
+        }
+
+        #back-view {
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url('back.png');
+            background-size: cover;
+            background-position: center;
+            display: none;
+            z-index: 50;
+        }
+
+        #turn-trigger {
+            filter: blur(2px);
+            position: fixed;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80%; height: 80px;
+            z-index: 150; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            color: white; font-size: 150%; font-weight: bold; text-shadow: 0 0 5px black;
+        }
+        
+        @keyframes lightFlicker {
+            0% { opacity: 1; }
+            2% { opacity: 0; }
+            4% { opacity: 0.6; }
+            10% { opacity: 1; }
+            75% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .bad-light { animation: lightFlicker 0.15s infinite; }
+
+        #bear {
+            position: absolute;
+            height: 103vh; 
+            width: auto; 
+            bottom: 0;
+            display: none; 
+            z-index: 10;
+        }
+
+        #shotgun {
+            position: fixed; bottom: 0; left: 55%;
+            width: 500px; display: none; z-index: 100;
+            pointer-events: none;
+        }
+
+        #drone {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            object-fit: cover;
+            display: none;
+            z-index: 120;
+        }
+
+        #warningOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: black; display: flex; justify-content: center;
+            align-items: center; z-index: 200; transition: opacity 1s;
+        }
+
+        #warningText {
+            filter: blur(1px);
+            font-size: 180%; font-weight: 900; color: #ffffff; 
+            text-align: center; line-height: 1.5; white-space: pre-wrap;
+        }
+
+        #jumpscare {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: black; display: none; z-index: 1000;
+            justify-content: center; align-items: center;
+        }
+        #jumpscare img { width: 100%; height: 100%; object-fit: cover; }
+
+        .flash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 500; display: none; pointer-events: none;
+        }
+        .hidden { opacity: 0; visibility: hidden; }
+    </style>
+</head>
+<body>
+    <div id="flash-effect" class="flash"></div>
+    <div id="turn-trigger">look back</div>
+    
+    <div id="camera-container">
+        <div id="office">
+            <img id="bear" src="bear.png">
+        </div>
+        <div id="back-view"></div>
+        <img id="shotgun" src="shotgun.png">
+        
+
+        <div id="warningOverlay">
+            <p id="warningText">
+wwhat you hav done
+you make bear angry. 
+now he want eat you soul
+shot him to defend you self from him
+            </p>
+        </div>
+
+        <div id="jumpscare">
+            <img id="jumpscareImage">
+        </div>
+    </div>
+    <audio id="musica" src="ilovmyfamily.mp3"></audio>
+
+    <script>
+        const musica = document.getElementById('musica')
+        const office = document.getElementById('office');
+        const backView = document.getElementById('back-view');
+        const bear = document.getElementById('bear');
+        const shotgun = document.getElementById('shotgun');
+        const drone = document.getElementById('drone');
+        const flash = document.getElementById('flash-effect');
+        const turnTrigger = document.getElementById('turn-trigger');
+        
+        const shootSound = new Audio('shot.mp3');
+        const jumpscareSound = new Audio('oui.wav');
+        jumpscareSound.volume = 0.3;
+
+        let bearHP = 75;
+        let gameActive = false;
+        let bearInRoom = false;
+        let isAtBack = false;
+        let droneActive = false;
+
+        const jumpscareFrames = [];
+        const startFrame = 367;
+        const totalFrames = 9;
+
+
+
+
+        for (let i = 0; i <= totalFrames; i++) {
+            const img = new Image();
+            img.src = `jumpscare/${startFrame + i}.png`;
+            jumpscareFrames.push(img);
+        }
+
+function iniciarMusica() {
+    musica.volume = 0.1;
+    musica.play().catch(error => {
+       
+    });
+}
+
+document.addEventListener('click', () => {
+    iniciarMusica();
+}, { once: true });
+
+
+        function blinkBlack(duration, callback) {
+            flash.style.backgroundColor = "black";
+            flash.style.display = "block";
+            setTimeout(() => { 
+                flash.style.display = "none"; 
+                if(callback) callback();
+            }, duration);
+        }
+
+        function toggleView() {
+            if (!gameActive) return;
+            isAtBack = !isAtBack;
+            blinkBlack(400);
+            
+            setTimeout(() => {
+                if (isAtBack) {
+                    office.style.display = "none";
+                    backView.style.display = "block";
+                    shotgun.style.display = "none";
+                } else {
+                    office.style.display = "block";
+                    backView.style.display = "none";
+                    if (bearInRoom) shotgun.style.display = "block";
+                }
+            }, 200);
+        }
+
+        turnTrigger.onclick = toggleView;
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && gameActive && !droneActive) {
+                launchDrone();
+            }
+        });
+
+        function jogoGanho(){
+            if(bearHP === 0){
+                window.location.href = 'wim.html';
+
+            }
+        };
+
+
+        function spawnBear() {
+            if (bearHP <= 0 || !gameActive || bearInRoom) return;
+            if (droneActive) { setTimeout(spawnBear, 2000); return; }
+
+            blinkBlack(800); 
+            setTimeout(() => {
+                if (!gameActive) return;
+                bearInRoom = true;
+                office.classList.add('bad-light');
+                bear.style.left = (Math.random() * 30 + 35) + "%";
+                bear.style.display = "block";
+                if (!isAtBack) shotgun.style.display = "block";
+                
+                setTimeout(() => { 
+                    if (bearInRoom && gameActive) triggerGameOver(); 
+                }, 2500);
+            }, 400);
+        }
+
+        window.onclick = (e) => {
+            if (e.target === turnTrigger || !gameActive || shotgun.style.display === "none") return;
+            
+            shootSound.play();
+            flash.style.backgroundColor = "white";
+            flash.style.display = "block";
+            setTimeout(() => { flash.style.display = "none"; }, 50);
+
+            if (bearInRoom) {
+                bearInRoom = false;
+                bearHP -= 25;
+                setTimeout(() => {
+                    blinkBlack(1000); 
+                    bear.style.display = "none";
+                    if (!droneActive) office.classList.remove('bad-light');
+                }, 100);
+                setTimeout(() => {
+                    shotgun.style.display = "none";
+                    if (bearHP > 0) setTimeout(spawnBear, 8000);
+                    else window.location.href =  'wim.html' ;
+                }, 1200);
+            }
+        };
+
+            function jogoGanho(){
+                if(bearHP === 0){
+                    window.location.href = 'wim.html' ;
+
+                }
+            };
+
+
+        function triggerGameOver() {
+            if (!gameActive) return;
+            gameActive = false;
+            
+            jumpscareSound.play();
+            const jumpscareDiv = document.getElementById('jumpscare');
+            const jumpscareImg = document.getElementById('jumpscareImage');
+            
+            jumpscareDiv.style.display = "flex";
+            shotgun.style.display = "none";
+            bear.style.display = "none";
+
+            let currentFrame = 0;
+            const animateJumpscare = setInterval(() => {
+                if (currentFrame <= totalFrames) {
+                    jumpscareImg.src = jumpscareFrames[currentFrame].src;
+                    currentFrame++;
+                } else {
+                    clearInterval(animateJumpscare);
+                }
+            }, 45);
+
+            setTimeout(() => { window.location.href = '../nightshift.html'; }, 1000);
+        }
+
+        
+
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('warningOverlay').classList.add('hidden');
+                gameActive = true;
+                setTimeout(spawnBear, 5000); 
+            }, 7000);
+        };
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isAtBack) {
+                let scroll = (e.clientX / window.innerWidth) * 18; 
+                office.style.transform = `translateX(-${scroll}%)`;
+            }
+        });
+    </script>
+</body>
+</html>
